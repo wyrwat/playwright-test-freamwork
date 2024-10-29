@@ -10,7 +10,7 @@ test.describe('Verify menu main buttons', () => {
     async ({ page }) => {
       //Arrange
       const userEmail = testUser1.userEmail;
-      const userPassword = 'test1';
+      const userPassword = testUser1.userPassword;
       const loginPage = new LoginPage(page);
 
       //Act
