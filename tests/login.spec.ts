@@ -18,7 +18,7 @@ test.describe('Verify menu main buttons', () => {
     const title = await welcomePage.title();
     expect(title).toContain('Welcome');
     await expect(welcomePage.welcome).toContainText(
-      'Hi Moses.Armstrong@Feest.ca!sdasdasd',
+      'Hi Moses.Armstrong@Feest.ca!',
     );
   });
 });
