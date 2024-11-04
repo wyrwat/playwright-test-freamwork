@@ -41,15 +41,11 @@ test.describe('Verify menu main buttons', () => {
       await loginPage.login(userEmail, userPassword);
 
       //Assert
-      await expect(loginPage.loginError).toContainText(
-        'Invalid username or password',
-      );
-      // const welcomePage = new WelcomePage(page);
-      // // const title = await welcomePage.title();
-      // // expect(title).toContain('Welcome');
-      // // await expect(welcomePage.welcome).toContainText(
-      // //   'Hi Moses.Armstrong@Feest.ca!',
-      // );
+      await expect
+        .soft(loginPage.loginError)
+        .toHaveText('Invalid username or password');
+      const title = await loginPage.title();
+      expect.soft(title).toContain('Login');
     },
   );
 });
