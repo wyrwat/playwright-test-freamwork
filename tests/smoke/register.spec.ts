@@ -10,8 +10,8 @@ test.describe('Verify register', () => {
     { tag: ['@smoke', '@GAD-R03-01', '@GAD-R03-02', '@GAD-R03-03'] },
     async ({ page }) => {
       //Arrange
-      const userfirstName = faker.person.firstName();
-      const userlastName = faker.person.lastName();
+      const userfirstName = faker.person.firstName().replace(/[^A-Za-z]/g, '');
+      const userlastName = faker.person.lastName().replace(/[^A-Za-z]/g, '');
       // const userEmail = `jan${new Date().getTime()}@test.te`;
       const userEmail = faker.internet.email({
         firstName: userfirstName,
