@@ -1,6 +1,7 @@
 import { LoginPage } from '../../src/pages/login.page';
 import { RegisterPage } from '../../src/pages/register.page';
 import { WelcomePage } from '../../src/pages/welcome.page';
+import { faker } from '@faker-js/faker';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify register', () => {
@@ -9,10 +10,14 @@ test.describe('Verify register', () => {
     { tag: ['@smoke', '@GAD-R03-01', '@GAD-R03-02', '@GAD-R03-03'] },
     async ({ page }) => {
       //Arrange
-      const userfirstName = 'Janina';
-      const userlastName = 'Nowak';
-      const userEmail = `jan${new Date().getTime()}@test.te`;
-      const userPassword = 'test123';
+      const userfirstName = faker.person.firstName();
+      const userlastName = faker.person.lastName();
+      // const userEmail = `jan${new Date().getTime()}@test.te`;
+      const userEmail = faker.internet.email({
+        firstName: userfirstName,
+        lastName: userlastName,
+      });
+      const userPassword = faker.internet.password({ length: 8 });
 
       const registerPage = new RegisterPage(page);
       const popUpText = 'User created';
@@ -26,7 +31,6 @@ test.describe('Verify register', () => {
       );
 
       //Assert
-
       await expect(registerPage.registerPopUp).toHaveText(popUpText);
 
       const loginPage = new LoginPage(page);
