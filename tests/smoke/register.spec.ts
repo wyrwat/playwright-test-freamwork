@@ -1,3 +1,4 @@
+import { RegisterUser } from '../../src/models/user.models';
 import { LoginPage } from '../../src/pages/login.page';
 import { RegisterPage } from '../../src/pages/register.page';
 import { WelcomePage } from '../../src/pages/welcome.page';
@@ -10,25 +11,24 @@ test.describe('Verify register', () => {
     { tag: ['@smoke', '@GAD-R03-01', '@GAD-R03-02', '@GAD-R03-03'] },
     async ({ page }) => {
       //Arrange
-      const userfirstName = faker.person.firstName().replace(/[^A-Za-z]/g, '');
-      const userlastName = faker.person.lastName().replace(/[^A-Za-z]/g, '');
-      // const userEmail = `jan${new Date().getTime()}@test.te`;
-      const userEmail = faker.internet.email({
-        firstName: userfirstName,
-        lastName: userlastName,
+      const registerUserData: RegisterUser = {
+        userFirtsName: faker.person.firstName().replace(/[^A-Za-z]/g, ''),
+        userLastName: faker.person.lastName().replace(/[^A-Za-z]/g, ''),
+        userEmail: '',
+        userPassword: faker.internet.password({ length: 8 }),
+      };
+
+      registerUserData.userEmail = faker.internet.email({
+        firstName: registerUserData.userFirtsName,
+        lastName: registerUserData.userLastName,
       });
-      const userPassword = faker.internet.password({ length: 8 });
 
       const registerPage = new RegisterPage(page);
       const popUpText = 'User created';
+
       //Act
       await registerPage.goto();
-      await registerPage.register(
-        userfirstName,
-        userlastName,
-        userEmail,
-        userPassword,
-      );
+      await registerPage.register(registerUserData);
 
       //Assert
       await expect(registerPage.registerPopUp).toHaveText(popUpText);
@@ -39,12 +39,17 @@ test.describe('Verify register', () => {
       expect(titleLogin).toContain('Login');
 
       //Assert
-      await loginPage.login(userEmail, userPassword);
+      await loginPage.login(
+        registerUserData.userEmail,
+        registerUserData.userPassword,
+      );
 
       const welcomePage = new WelcomePage(page);
       const titleWelcome = await welcomePage.title();
       expect(titleWelcome).toContain('Welcome');
-      await expect(welcomePage.welcome).toContainText(`Hi ${userEmail}!`);
+      await expect(welcomePage.welcome).toContainText(
+        `Hi ${registerUserData.userEmail}!`,
+      );
     },
   );
 });
