@@ -16,3 +16,20 @@ export default function randomUserData(): RegisterUser {
 
   return registerUserData;
 }
+
+export class UserFactory {
+  randomUser(): RegisterUser {
+    const registerUserData: RegisterUser = {
+      userFirtsName: faker.person.firstName(),
+      userLastName: faker.person.lastName(),
+      userEmail: '',
+      userPassword: faker.internet.password(),
+    };
+
+    registerUserData.userEmail = faker.internet.email({
+      firstName: registerUserData.userFirtsName,
+      lastName: registerUserData.userLastName,
+    });
+    return registerUserData;
+  }
+}
