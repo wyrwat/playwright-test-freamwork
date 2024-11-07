@@ -1,28 +1,24 @@
-import { ArticlesPage } from '../../src/pages/articles.page';
-import { CommentsPage } from '../../src/pages/comments.page';
-import { HomePage } from '../../src/pages/home.page';
+import { ArticlesPage } from '../src/pages/articles.page';
+import { CommentsPage } from '../src/pages/comments.page';
+import { HomePage } from '../src/pages/home.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify service main pages', () => {
-  test(
-    'Home page has title',
-    { tag: ['@smoke', '@GAD-R01-02'] },
-    async ({ page }) => {
-      // Arange
-      const homePage = new HomePage(page);
+  test('Home page has title', { tag: ['@GAD-R01-02'] }, async ({ page }) => {
+    // Arange
+    const homePage = new HomePage(page);
 
-      //Act
-      await homePage.goto();
+    //Act
+    await homePage.goto();
 
-      //Assert
-      const title = await homePage.title();
-      expect(title).toContain('GAD');
-    },
-  );
+    //Assert
+    const title = await homePage.title();
+    expect(title).toContain('GAD');
+  });
 
   test(
     'Arcticles page has title',
-    { tag: ['@smoke', '@GAD-R01-02'] },
+    { tag: ['@GAD-R01-02'] },
     async ({ page }) => {
       // Arange
       const articlesPage = new ArticlesPage(page);
@@ -38,7 +34,7 @@ test.describe('Verify service main pages', () => {
 
   test(
     'Comments page has title',
-    { tag: ['@smoke', '@GAD-R01-02'] },
+    { tag: ['@GAD-R01-02'] },
     async ({ page }) => {
       // Arange
 

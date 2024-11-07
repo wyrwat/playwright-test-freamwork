@@ -1,13 +1,13 @@
-import randomUserData from '../../src/factories/user.factory';
-import { LoginPage } from '../../src/pages/login.page';
-import { RegisterPage } from '../../src/pages/register.page';
-import { WelcomePage } from '../../src/pages/welcome.page';
+import randomUserData from '../src/factories/user.factory';
+import { LoginPage } from '../src/pages/login.page';
+import { RegisterPage } from '../src/pages/register.page';
+import { WelcomePage } from '../src/pages/welcome.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify register', () => {
   test(
     'Register with correct data and login',
-    { tag: ['@smoke', '@GAD-R03-01', '@GAD-R03-02', '@GAD-R03-03'] },
+    { tag: ['@GAD-R03-01', '@GAD-R03-02', '@GAD-R03-03'] },
     async ({ page }) => {
       //Arrange
       const registerUserData = randomUserData();
@@ -44,7 +44,7 @@ test.describe('Verify register', () => {
 
   test(
     'Not register with incorrect data - invalid email',
-    { tag: ['@smoke', '@GAD-R03-04'] },
+    { tag: ['@GAD-R03-04'] },
     async ({ page }) => {
       //Arrange
       const registerUserData = randomUserData();
@@ -64,7 +64,7 @@ test.describe('Verify register', () => {
 
   test(
     'Not register with incorrect data - email not provided',
-    { tag: ['@smoke', '@GAD-R03-04'] },
+    { tag: ['@GAD-R03-04'] },
     async ({ page }) => {
       //Arrange
       const registerUserData = randomUserData();
