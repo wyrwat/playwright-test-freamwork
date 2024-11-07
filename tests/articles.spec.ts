@@ -1,4 +1,5 @@
 import randomNewArticle from '../src/factories/article.factory';
+import { AddArticleModel } from '../src/models/article.model';
 import { ArticlePage } from '../src/pages/article.page';
 import { ArticlesPage } from '../src/pages/articles.page';
 import { LoginPage } from '../src/pages/login.page';
@@ -7,29 +8,38 @@ import { AddArticleView } from '../src/views/addArticle.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify articles', () => {
-  test('Create new article', { tag: ['@GAD-R04-01'] }, async ({ page }) => {
-    //Arrange
-    const loginPage = new LoginPage(page);
+  let loginPage: LoginPage;
+  let articlesPage: ArticlesPage;
+  let addArticleView: AddArticleView;
+  let articleData: AddArticleModel;
+
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    articlesPage = new ArticlesPage(page);
+    addArticleView = new AddArticleView(page);
+    articleData = randomNewArticle();
+
     await loginPage.goto();
     await loginPage.login(testUser1);
+    await articlesPage.goto();
+
+    await articlesPage.addArticleButtonLogged.click();
+    await expect(addArticleView.header).toBeVisible();
+  });
+
+  test('Create new article', { tag: ['@GAD-R04-01'] }, async ({ page }) => {
+    //Arrange
+
+    const alertPopUp = 'Article was created';
+    const articlePage = new ArticlePage(page);
 
     //Act
-    const articlesPage = new ArticlesPage(page);
-    await articlesPage.goto();
-    await articlesPage.addArticleButtonLogged.click();
+    await addArticleView.addNewArticle(articleData);
 
-    const addArticleView = new AddArticleView(page);
-    await expect(addArticleView.header).toBeVisible();
-
-    const addArticledata = randomNewArticle();
-    const alertPopUp = 'Article was created';
-
-    await addArticleView.addNewArticle(addArticledata);
     //Assert
-    const article = new ArticlePage(page);
-    await expect(article.alertPopup).toHaveText(alertPopUp);
-    await expect(article.articleTitle).toHaveText(addArticledata.title);
-    await expect(article.articleBody).toHaveText(addArticledata.body, {
+    await expect(articlePage.alertPopup).toHaveText(alertPopUp);
+    await expect(articlePage.articleTitle).toHaveText(articleData.title);
+    await expect(articlePage.articleBody).toHaveText(articleData.body, {
       useInnerText: true,
     });
   });
@@ -37,23 +47,12 @@ test.describe('Verify articles', () => {
   test(
     'Reject create article - empty title',
     { tag: ['@GAD-R04-01'] },
-    async ({ page }) => {
+    async () => {
       //Arrange
-      const loginPage = new LoginPage(page);
-      await loginPage.goto();
-      await loginPage.login(testUser1);
-
-      //Act
-      const articlesPage = new ArticlesPage(page);
-      await articlesPage.goto();
-      await articlesPage.addArticleButtonLogged.click();
-
-      const addArticleView = new AddArticleView(page);
-
-      const addArticleData = randomNewArticle();
       const alertPopUp = 'Article was not created';
 
-      await addArticleView.bodyInput.fill(addArticleData.body);
+      //Act
+      await addArticleView.bodyInput.fill(articleData.body);
       await addArticleView.saveButton.click();
 
       //Assert
@@ -64,23 +63,12 @@ test.describe('Verify articles', () => {
   test(
     'Rejectt create article - empty body',
     { tag: ['@GAD-R04-01'] },
-    async ({ page }) => {
+    async () => {
       //Arrange
-      const loginPage = new LoginPage(page);
-      await loginPage.goto();
-      await loginPage.login(testUser1);
-
-      //Act
-      const articlesPage = new ArticlesPage(page);
-      await articlesPage.goto();
-      await articlesPage.addArticleButtonLogged.click();
-
-      const addArticleView = new AddArticleView(page);
-
-      const addArticleData = randomNewArticle();
       const alertPopUp = 'Article was not created';
 
-      await addArticleView.titleInput.fill(addArticleData.title);
+      //Act
+      await addArticleView.titleInput.fill(articleData.title);
       await addArticleView.saveButton.click();
 
       //Assert
