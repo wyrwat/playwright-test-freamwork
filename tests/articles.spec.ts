@@ -1,8 +1,9 @@
+import randomNewArticle from '../src/factories/article.factory';
 import { ArticlePage } from '../src/pages/article.page';
 import { ArticlesPage } from '../src/pages/articles.page';
 import { LoginPage } from '../src/pages/login.page';
 import { testUser1 } from '../src/test-data/user.data';
-import { AddArticlesView } from '../src/views/addArticle.view';
+import { AddArticleView } from '../src/views/addArticle.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify articles', () => {
@@ -16,17 +17,18 @@ test.describe('Verify articles', () => {
     await articlesPage.goto();
     await articlesPage.addArticleButtonLogged.click();
 
-    const addArticlesView = new AddArticlesView(page);
-    await expect(addArticlesView.header).toBeVisible();
+    const addArticleView = new AddArticleView(page);
+    await expect(addArticleView.header).toBeVisible();
+    const addArticledata = randomNewArticle();
+    const alertPopUp = 'Article was created';
 
-    const newArticleTitle = 'article-title';
-    const newArticleBody = 'test body';
-    await addArticlesView.titleInput.fill(newArticleTitle);
-    await addArticlesView.bodyInput.fill(newArticleBody);
-    await addArticlesView.saveButton.click();
+    await addArticleView.addNewArticle(addArticledata);
     //Assert
     const article = new ArticlePage(page);
-    await expect(article.articleTitle).toHaveText(newArticleTitle);
-    await expect(article.articleBody).toHaveText(newArticleBody);
+    await expect(article.alertPopup).toHaveText(alertPopUp);
+    await expect(article.articleTitle).toHaveText(addArticledata.title);
+    await expect(article.articleBody).toHaveText(addArticledata.body, {
+      useInnerText: true,
+    });
   });
 });
