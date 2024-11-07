@@ -58,7 +58,7 @@ test.describe('Verify register', () => {
       await registerPage.register(registerUserData);
 
       //Assert
-      await expect(registerPage.invalidEmailError).toHaveText(errorMessage);
+      await expect(registerPage.alertPopUp).toHaveText(errorMessage);
     },
   );
 
@@ -80,7 +80,7 @@ test.describe('Verify register', () => {
       await registerPage.registerButton.click();
 
       //Assert
-      await expect(registerPage.invalidEmailError).toHaveText(errorMessage);
+      await expect(registerPage.alertPopUp).toHaveText(errorMessage);
     },
   );
 });

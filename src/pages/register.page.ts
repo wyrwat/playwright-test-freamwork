@@ -1,6 +1,6 @@
+import { Locator, Page } from '@playwright/test';
 import { RegisterUser } from '../models/user.model';
 import { BasePage } from './base.page';
-import { Locator, Page } from '@playwright/test';
 
 export class RegisterPage extends BasePage {
   url = '/register.html';
@@ -10,7 +10,7 @@ export class RegisterPage extends BasePage {
   userPasswordInput: Locator;
   registerButton: Locator;
   registerPopUp: Locator;
-  invalidEmailError: Locator;
+  alertPopUp: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -20,7 +20,7 @@ export class RegisterPage extends BasePage {
     this.userPasswordInput = this.page.getByTestId('password-input');
     this.registerButton = page.getByTestId('register-button');
     this.registerPopUp = page.getByTestId('alert-popup');
-    this.invalidEmailError = page.locator('#octavalidate_email');
+    this.alertPopUp = page.locator('#octavalidate_email');
   }
 
   async register(registerUserData: RegisterUser): Promise<void> {
