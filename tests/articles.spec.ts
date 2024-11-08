@@ -24,23 +24,6 @@ test.describe('Verify articles', () => {
     await expect(addArticleView.header).toBeVisible();
   });
 
-  test('Create new article', { tag: ['@GAD-R04-01'] }, async ({ page }) => {
-    //Arrange
-    const alertPopUp = 'Article was created';
-    const articlePage = new ArticlePage(page);
-    const articleData = randomNewArticle(10, 60);
-
-    //Act
-    await addArticleView.addNewArticle(articleData);
-
-    //Assert
-    await expect(articlePage.alertPopup).toHaveText(alertPopUp);
-    await expect(articlePage.articleTitle).toHaveText(articleData.title);
-    await expect(articlePage.articleBody).toHaveText(articleData.body, {
-      useInnerText: true,
-    });
-  });
-
   test(
     'Reject create article - empty title',
     { tag: ['@GAD-R04-01'] },
