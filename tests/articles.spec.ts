@@ -1,5 +1,4 @@
 import randomNewArticle from '../src/factories/article.factory';
-import { AddArticleModel } from '../src/models/article.model';
 import { ArticlePage } from '../src/pages/article.page';
 import { ArticlesPage } from '../src/pages/articles.page';
 import { LoginPage } from '../src/pages/login.page';
@@ -11,13 +10,11 @@ test.describe('Verify articles', () => {
   let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
   let addArticleView: AddArticleView;
-  let articleData: AddArticleModel;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     addArticleView = new AddArticleView(page);
-    articleData = randomNewArticle();
 
     await loginPage.goto();
     await loginPage.login(testUser1);
@@ -29,9 +26,9 @@ test.describe('Verify articles', () => {
 
   test('Create new article', { tag: ['@GAD-R04-01'] }, async ({ page }) => {
     //Arrange
-
     const alertPopUp = 'Article was created';
     const articlePage = new ArticlePage(page);
+    const articleData = randomNewArticle(10, 60);
 
     //Act
     await addArticleView.addNewArticle(articleData);
@@ -50,6 +47,7 @@ test.describe('Verify articles', () => {
     async () => {
       //Arrange
       const alertPopUp = 'Article was not created';
+      const articleData = randomNewArticle(10, 60);
 
       //Act
       await addArticleView.bodyInput.fill(articleData.body);
@@ -66,6 +64,7 @@ test.describe('Verify articles', () => {
     async () => {
       //Arrange
       const alertPopUp = 'Article was not created';
+      const articleData = randomNewArticle();
 
       //Act
       await addArticleView.titleInput.fill(articleData.title);
@@ -75,4 +74,44 @@ test.describe('Verify articles', () => {
       await expect(addArticleView.alertPopup).toHaveText(alertPopUp);
     },
   );
+  test.describe('Title length', () => {
+    test(
+      'Reject create article - title exceed 128 char',
+      { tag: ['@GAD-R04-02'] },
+      async () => {
+        //Arrange
+        const alertPopUp = 'Article was not created';
+
+        const articleData = randomNewArticle(129, 60);
+
+        //Act
+        await addArticleView.addNewArticle(articleData);
+        await addArticleView.saveButton.click();
+
+        //Assert
+        await expect(addArticleView.alertPopup).toHaveText(alertPopUp);
+      },
+    );
+
+    test(
+      'Create article - title exceed with 128 char',
+      { tag: ['@GAD-R04-02'] },
+      async ({ page }) => {
+        //Arrange
+        const alertPopUp = 'Article was created';
+        const articlePage = new ArticlePage(page);
+        const articleData = randomNewArticle(128, 60);
+
+        //Act
+        await addArticleView.addNewArticle(articleData);
+
+        //Assert
+        await expect(articlePage.alertPopup).toHaveText(alertPopUp);
+        await expect(articlePage.articleTitle).toHaveText(articleData.title);
+        await expect(articlePage.articleBody).toHaveText(articleData.body, {
+          useInnerText: true,
+        });
+      },
+    );
+  });
 });
