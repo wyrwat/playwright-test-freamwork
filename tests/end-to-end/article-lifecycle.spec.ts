@@ -64,6 +64,8 @@ test.describe('Create, verify and delete articles', () => {
     { tag: ['@GAD-R04-04'] },
     async () => {
       //Arrange
+      const expectedArticleTitle = 'Articles';
+      const expectedNoresultsText = 'No data';
       await articlesPage.gotoArticle(articleData.title);
 
       //Act
@@ -72,10 +74,10 @@ test.describe('Create, verify and delete articles', () => {
       //Assert
       await articlesPage.waitForPageToLoadUrl();
       const title = await articlesPage.getTitle();
-      expect(title).toContain('Articles');
+      expect(title).toContain(expectedArticleTitle);
 
       await articlesPage.searchArticle(articleData.title);
-      await expect(articlesPage.noResultText).toHaveText('No data');
+      await expect(articlesPage.noResultText).toHaveText(expectedNoresultsText);
     },
   );
 });

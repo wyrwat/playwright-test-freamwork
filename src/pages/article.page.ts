@@ -1,4 +1,4 @@
-import { MainMenuComponent } from '../components/main-manu.component';
+import { MainMenuComponent } from '../components/main-menu.component';
 import { BasePage } from './base.page';
 import { Locator, Page } from '@playwright/test';
 

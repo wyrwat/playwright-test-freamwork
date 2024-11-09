@@ -16,6 +16,7 @@ test.describe('Verify menu main buttons', () => {
       };
 
       const loginPage = new LoginPage(page);
+      const expectedWelcomeTitle = 'Welcome';
 
       //Act
       await loginPage.goto();
@@ -24,7 +25,7 @@ test.describe('Verify menu main buttons', () => {
       //Assert
       const welcomePage = new WelcomePage(page);
       const title = await welcomePage.getTitle();
-      expect(title).toContain('Welcome');
+      expect(title).toContain(expectedWelcomeTitle);
       await expect(welcomePage.welcome).toContainText(
         'Hi Moses.Armstrong@Feest.ca!',
       );
@@ -37,6 +38,7 @@ test.describe('Verify menu main buttons', () => {
     async ({ page }) => {
       //Arrange
       const loginPage = new LoginPage(page);
+      const expectedLoginTitle = 'Login';
 
       //Act
       await loginPage.goto();
@@ -50,7 +52,7 @@ test.describe('Verify menu main buttons', () => {
         .soft(loginPage.loginError)
         .toHaveText('Invalid username or password');
       const title = await loginPage.getTitle();
-      expect.soft(title).toContain('Login');
+      expect.soft(title).toContain(expectedLoginTitle);
     },
   );
 });

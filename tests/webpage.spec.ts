@@ -22,13 +22,14 @@ test.describe('Verify service main pages', () => {
     async ({ page }) => {
       // Arange
       const articlesPage = new ArticlesPage(page);
+      const expectedArticleTitle = 'Articles';
 
       //Act
       await articlesPage.goto();
 
       //Assert
       const title = await articlesPage.getTitle();
-      expect(title).toContain('Articles');
+      expect(title).toContain(expectedArticleTitle);
     },
   );
 
@@ -37,14 +38,15 @@ test.describe('Verify service main pages', () => {
     { tag: ['@GAD-R01-02'] },
     async ({ page }) => {
       // Arange
-
       const commentsPage = new CommentsPage(page);
+      const expecetedCommentsTitle = 'Comments';
+
       //Act
       await commentsPage.goto();
 
       //Assert
       const title = await commentsPage.getTitle();
-      expect(title).toContain('Comments');
+      expect(title).toContain(expecetedCommentsTitle);
     },
   );
 
