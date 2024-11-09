@@ -1,4 +1,4 @@
-import randomNewArticle from '../src/factories/article.factory';
+import createRandomNewArticle from '../src/factories/article.factory';
 import { ArticlePage } from '../src/pages/article.page';
 import { ArticlesPage } from '../src/pages/articles.page';
 import { LoginPage } from '../src/pages/login.page';
@@ -30,7 +30,7 @@ test.describe('Verify articles', () => {
     async () => {
       //Arrange
       const alertPopUp = 'Article was not created';
-      const articleData = randomNewArticle(10, 60);
+      const articleData = createRandomNewArticle(10, 60);
 
       //Act
       await addArticleView.bodyInput.fill(articleData.body);
@@ -47,7 +47,7 @@ test.describe('Verify articles', () => {
     async () => {
       //Arrange
       const alertPopUp = 'Article was not created';
-      const articleData = randomNewArticle();
+      const articleData = createRandomNewArticle();
 
       //Act
       await addArticleView.titleInput.fill(articleData.title);
@@ -65,7 +65,7 @@ test.describe('Verify articles', () => {
         //Arrange
         const alertPopUp = 'Article was not created';
 
-        const articleData = randomNewArticle(129, 60);
+        const articleData = createRandomNewArticle(129, 60);
 
         //Act
         await addArticleView.addNewArticle(articleData);
@@ -83,7 +83,7 @@ test.describe('Verify articles', () => {
         //Arrange
         const alertPopUp = 'Article was created';
         const articlePage = new ArticlePage(page);
-        const articleData = randomNewArticle(128, 60);
+        const articleData = createRandomNewArticle(128, 60);
 
         //Act
         await addArticleView.addNewArticle(articleData);

@@ -1,4 +1,4 @@
-import randomNewArticle from '../../src/factories/article.factory';
+import createRandomNewArticle from '../../src/factories/article.factory';
 import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
@@ -29,7 +29,7 @@ test.describe('Create, verify and delete articles', () => {
     //Arrange
     addArticleView = new AddArticleView(page);
     const alertPopUp = 'Article was created';
-    articleData = randomNewArticle(10, 60);
+    articleData = createRandomNewArticle(10, 60);
 
     //Act
     await articlesPage.addArticleButtonLogged.click();
