@@ -23,7 +23,7 @@ test.describe('Verify menu main buttons', () => {
 
       //Assert
       const welcomePage = new WelcomePage(page);
-      const title = await welcomePage.title();
+      const title = await welcomePage.getTitle();
       expect(title).toContain('Welcome');
       await expect(welcomePage.welcome).toContainText(
         'Hi Moses.Armstrong@Feest.ca!',
@@ -49,7 +49,7 @@ test.describe('Verify menu main buttons', () => {
       await expect
         .soft(loginPage.loginError)
         .toHaveText('Invalid username or password');
-      const title = await loginPage.title();
+      const title = await loginPage.getTitle();
       expect.soft(title).toContain('Login');
     },
   );

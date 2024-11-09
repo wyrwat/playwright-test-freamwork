@@ -17,7 +17,7 @@ test.describe('Verify menu main buttons', () => {
 
       //Assert
       const commentsPage = new CommentsPage(page);
-      const title = await commentsPage.title();
+      const title = await commentsPage.getTitle();
       expect(title).toContain('Comments');
     },
   );
@@ -35,7 +35,7 @@ test.describe('Verify menu main buttons', () => {
 
       //Assert
       const articlesPage = new ArticlesPage(page);
-      const title = await articlesPage.title();
+      const title = await articlesPage.getTitle();
       expect(title).toContain('Articles');
     },
   );
@@ -53,7 +53,7 @@ test.describe('Verify menu main buttons', () => {
 
       //Assert
       const homePage = new HomePage(page);
-      const title = await homePage.title();
+      const title = await homePage.getTitle();
       expect(title).toContain('GAD');
     },
   );
