@@ -4,7 +4,11 @@ import { HomePage } from '../src/pages/home.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify service main pages', () => {
-  test('Home page has title', { tag: ['@GAD-R01-02'] }, async ({ page }) => {
+  // prettier-ignore
+  test(
+    'Home page has title', 
+    { tag: ['@GAD-R01-02'] }, 
+    async ({ page }) => {
     // Arange
     const homePage = new HomePage(page);
 
