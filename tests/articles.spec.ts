@@ -77,7 +77,7 @@ test.describe('Verify articles', () => {
     );
 
     test(
-      'Create article - title exceed with 128 char',
+      'Create article - title with 128 char',
       { tag: ['@GAD-R04-02'] },
       async ({ page }) => {
         //Arrange
