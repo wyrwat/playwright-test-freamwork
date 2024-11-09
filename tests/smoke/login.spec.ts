@@ -1,4 +1,4 @@
-import { LoginUser } from '../../src/models/user.model';
+import { LoginUserModel } from '../../src/models/user.model';
 import { LoginPage } from '../../src/pages/login.page';
 import { WelcomePage } from '../../src/pages/welcome.page';
 import { testUser1 } from '../../src/test-data/user.data';
@@ -10,7 +10,7 @@ test.describe('Verify menu main buttons', () => {
     { tag: ['@smoke', '@GAD-R02-02'] },
     async ({ page }) => {
       //Arrange
-      const userLoginData: LoginUser = {
+      const userLoginData: LoginUserModel = {
         userEmail: testUser1.userEmail,
         userPassword: testUser1.userPassword,
       };
