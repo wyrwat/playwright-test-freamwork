@@ -10,12 +10,13 @@ test.describe('Verify menu main buttons', () => {
     { tag: ['@smoke', '@GAD-R02-02'] },
     async ({ page }) => {
       //Arrange
+      const loginPage = new LoginPage(page);
+      const welcomePage = new WelcomePage(page);
       const userLoginData: LoginUserModel = {
         userEmail: testUser1.userEmail,
         userPassword: testUser1.userPassword,
       };
 
-      const loginPage = new LoginPage(page);
       const expectedWelcomeTitle = 'Welcome';
 
       //Act
@@ -23,7 +24,7 @@ test.describe('Verify menu main buttons', () => {
       await loginPage.login(userLoginData);
 
       //Assert
-      const welcomePage = new WelcomePage(page);
+
       const title = await welcomePage.getTitle();
       expect(title).toContain(expectedWelcomeTitle);
       await expect(welcomePage.welcome).toContainText(
@@ -37,8 +38,8 @@ test.describe('Verify menu main buttons', () => {
     { tag: ['@smoke', '@GAD-R02-02'] },
     async ({ page }) => {
       //Arrange
-      const loginPage = new LoginPage(page);
       const expectedLoginTitle = 'Login';
+      const loginPage = new LoginPage(page);
 
       //Act
       await loginPage.goto();

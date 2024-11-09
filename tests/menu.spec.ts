@@ -9,14 +9,16 @@ test.describe('Verify menu main buttons', () => {
     { tag: ['@GAD-R01-02'] },
     async ({ page }) => {
       //Arrange
-      const articlesPage = new ArticlesPage(page);
       const expecetedCommentsTitle = 'Comments';
+
+      const articlesPage = new ArticlesPage(page);
+      const commentsPage = new CommentsPage(page);
       //Act
       await articlesPage.goto();
       await articlesPage.mainMenu.commentsButton.click();
 
       //Assert
-      const commentsPage = new CommentsPage(page);
+
       const title = await commentsPage.getTitle();
       expect(title).toContain(expecetedCommentsTitle);
     },
@@ -27,15 +29,16 @@ test.describe('Verify menu main buttons', () => {
     { tag: ['@GAD-R01-02'] },
     async ({ page }) => {
       //Arrange
-      const commentsPage = new CommentsPage(page);
       const expectedArticleTitle = 'Articles';
+      const commentsPage = new CommentsPage(page);
+      const articlesPage = new ArticlesPage(page);
 
       //Act
       await commentsPage.goto();
       await commentsPage.mainMenu.articlesButton.click();
 
       //Assert
-      const articlesPage = new ArticlesPage(page);
+
       const title = await articlesPage.getTitle();
       expect(title).toContain(expectedArticleTitle);
     },
@@ -46,14 +49,15 @@ test.describe('Verify menu main buttons', () => {
     { tag: ['@GAD-R01-02'] },
     async ({ page }) => {
       //Arrange
-      const commentsPage = new CommentsPage(page);
       const expectedHomePageTitle = 'GAD';
+      const commentsPage = new CommentsPage(page);
+      const homePage = new HomePage(page);
       //Act
       await commentsPage.goto();
       await commentsPage.mainMenu.homePage.click();
 
       //Assert
-      const homePage = new HomePage(page);
+
       const title = await homePage.getTitle();
       expect(title).toContain(expectedHomePageTitle);
     },
