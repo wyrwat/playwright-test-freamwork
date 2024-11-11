@@ -9,6 +9,7 @@ export class ArticlePage extends BasePage {
   alertPopup: Locator;
   deleteIcon: Locator;
   mainMenu: MainMenuComponent;
+  addNewCommentButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -17,6 +18,7 @@ export class ArticlePage extends BasePage {
     this.articleBody = this.page.getByTestId('article-body');
     this.alertPopup = this.page.getByTestId('alert-popup');
     this.deleteIcon = this.page.getByTestId('delete');
+    this.addNewCommentButton = this.page.locator('#add-new');
   }
 
   async deleteArticle(): Promise<void> {
