@@ -1,4 +1,5 @@
 import createRandomNewArticle from '../../src/factories/article.factory';
+import createRandomComment from '../../src/factories/comment.factory';
 import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
@@ -37,12 +38,12 @@ test.describe('Create, verify and delete comment', () => {
   test('Create new comment', { tag: ['@GAD-R04-03'] }, async () => {
     //Arrange
     const popUpText = 'Comment was created';
-    const commentText = 'new comment';
 
+    const newCommentData = createRandomComment(5);
     //Act
     await articlePage.addNewCommentButton.click();
     await expect(addCommentView.addCommentHeader).toBeVisible();
-    await addCommentView.commentBodyInput.fill(commentText);
+    await addCommentView.commentBodyInput.fill(newCommentData.body);
     await addCommentView.saveButton.click();
 
     //Assert
@@ -50,10 +51,10 @@ test.describe('Create, verify and delete comment', () => {
 
     //veryfi comment
     //Act
-    const articleComment = articlePage.getArticleComment(commentText);
-    await expect(articleComment.body).toHaveText(commentText);
+    const articleComment = articlePage.getArticleComment(newCommentData.body);
+    await expect(articleComment.body).toHaveText(newCommentData.body);
     await articleComment.link.click();
     //Assert
-    await expect(commentPage.commentBody).toHaveText(commentText);
+    await expect(commentPage.commentBody).toHaveText(newCommentData.body);
   });
 });
