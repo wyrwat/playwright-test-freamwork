@@ -38,8 +38,8 @@ test.describe('Create, verify and delete comment', () => {
   test('Create new comment', { tag: ['@GAD-R04-03'] }, async () => {
     //Arrange
     const popUpText = 'Comment was created';
-
     const newCommentData = createRandomComment(5);
+
     //Act
     await articlePage.addNewCommentButton.click();
     await expect(addCommentView.addCommentHeader).toBeVisible();
@@ -49,7 +49,7 @@ test.describe('Create, verify and delete comment', () => {
     //Assert
     await expect(articlePage.alertPopup).toHaveText(popUpText);
 
-    //veryfi comment
+    //veryfi comment exist
     //Act
     const articleComment = articlePage.getArticleComment(newCommentData.body);
     await expect(articleComment.body).toHaveText(newCommentData.body);
