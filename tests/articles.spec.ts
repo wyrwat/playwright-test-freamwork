@@ -26,7 +26,7 @@ test.describe('Verify articles', () => {
 
   test(
     'Reject create article - empty title',
-    { tag: ['@GAD-R04-01'] },
+    { tag: ['@GAD-R04-01', '@logged'] },
     async () => {
       //Arrange
       const alertPopUp = 'Article was not created';
