@@ -1,3 +1,4 @@
+import { STORAGE_STATE } from '../../playwright.config';
 import { LoginUserModel } from '../../src/models/user.model';
 import { LoginPage } from '../../src/pages/login.page';
 import { WelcomePage } from '../../src/pages/welcome.page';
@@ -25,4 +26,6 @@ setup('Succesfull login using login page', async ({ page }) => {
   await expect(welcomePage.welcome).toContainText(
     'Hi Moses.Armstrong@Feest.ca!',
   );
+
+  await page.context().storageState({ path: STORAGE_STATE });
 });
