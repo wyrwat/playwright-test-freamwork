@@ -1,6 +1,6 @@
-import { MainMenuComponent } from '../components/main-menu.component';
 import { BasePage } from './base.page';
 import { Locator, Page } from '@playwright/test';
+import { MainMenuComponent } from '@src/components/main-menu.component';
 
 export class CommentPage extends BasePage {
   url = '/comment.html';
