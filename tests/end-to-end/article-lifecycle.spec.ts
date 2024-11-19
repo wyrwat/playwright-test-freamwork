@@ -3,7 +3,6 @@ import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
 import { LoginPage } from '../../src/pages/login.page';
-import { testUser1 } from '../../src/test-data/user.data';
 import { AddArticleView } from '../../src/views/addArticle.view';
 import test, { expect } from '@playwright/test';
 
@@ -16,37 +15,38 @@ test.describe('Create, verify and delete articles', () => {
   let articlePage: ArticlePage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     articlePage = new ArticlePage(page);
 
-    await loginPage.goto();
-    await loginPage.login(testUser1);
     await articlesPage.goto();
   });
 
-  test('Create new article', { tag: ['@GAD-R04-03'] }, async ({ page }) => {
-    //Arrange
-    addArticleView = new AddArticleView(page);
-    const alertPopUp = 'Article was created';
-    articleData = createRandomNewArticle(10, 60);
+  test(
+    'Create new article',
+    { tag: ['@GAD-R04-03', '@logged'] },
+    async ({ page }) => {
+      //Arrange
+      addArticleView = new AddArticleView(page);
+      const alertPopUp = 'Article was created';
+      articleData = createRandomNewArticle(10, 60);
 
-    //Act
-    await articlesPage.addArticleButtonLogged.click();
-    await expect(addArticleView.addNewHeader).toBeVisible();
-    await addArticleView.addNewArticle(articleData);
+      //Act
+      await articlesPage.addArticleButtonLogged.click();
+      await expect(addArticleView.addNewHeader).toBeVisible();
+      await addArticleView.addNewArticle(articleData);
 
-    //Assert
-    await expect(articlePage.alertPopup).toHaveText(alertPopUp);
-    await expect(articlePage.articleTitle).toHaveText(articleData.title);
-    await expect(articlePage.articleBody).toHaveText(articleData.body, {
-      useInnerText: true,
-    });
-  });
+      //Assert
+      await expect(articlePage.alertPopup).toHaveText(alertPopUp);
+      await expect(articlePage.articleTitle).toHaveText(articleData.title);
+      await expect(articlePage.articleBody).toHaveText(articleData.body, {
+        useInnerText: true,
+      });
+    },
+  );
 
   test(
     'Loged user can access single article',
-    { tag: ['@GAD-R04-01'] },
+    { tag: ['@GAD-R04-01', '@logged'] },
     async () => {
       //Act
       await articlesPage.gotoArticle(articleData.title);
@@ -61,7 +61,7 @@ test.describe('Create, verify and delete articles', () => {
 
   test(
     'Loged user can delete his own article single article',
-    { tag: ['@GAD-R04-04'] },
+    { tag: ['@GAD-R04-04', '@logged'] },
     async () => {
       //Arrange
       const expectedArticleTitle = 'Articles';
