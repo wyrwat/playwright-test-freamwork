@@ -1,14 +1,14 @@
-import createRandomNewArticle from '../../src/factories/article.factory';
-import createRandomComment from '../../src/factories/comment.factory';
-import { AddArticleModel } from '../../src/models/article.model';
-import { AddCommentModel } from '../../src/models/comment.model';
-import { ArticlePage } from '../../src/pages/article.page';
-import { ArticlesPage } from '../../src/pages/articles.page';
-import { CommentPage } from '../../src/pages/comment.page';
-import { LoginPage } from '../../src/pages/login.page';
-import { AddArticleView } from '../../src/views/addArticle.view';
-import { AddCommentView } from '../../src/views/addComment.view';
-import { EditCommentView } from '../../src/views/editComment.view';
+import createRandomNewArticle from '@_src/factories/article.factory';
+import createRandomComment from '@_src/factories/comment.factory';
+import { AddArticleModel } from '@_src/models/article.model';
+import { AddCommentModel } from '@_src/models/comment.model';
+import { ArticlePage } from '@_src/pages/article.page';
+import { ArticlesPage } from '@_src/pages/articles.page';
+import { CommentPage } from '@_src/pages/comment.page';
+import { LoginPage } from '@_src/pages/login.page';
+import { AddArticleView } from '@_src/views/addArticle.view';
+import { AddCommentView } from '@_src/views/addComment.view';
+import { EditCommentView } from '@_src/views/editComment.view';
 import test, { expect } from '@playwright/test';
 
 test.describe('Create, verify and delete comment', () => {

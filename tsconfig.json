@@ -3,6 +3,10 @@
     "target": "ESNext",
     "strict": true,
     "module": "CommonJS",
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@_src/*": ["src/*"]
+    }
   }
 }
