@@ -1,3 +1,4 @@
+import { CommentPage } from '@_src/pages/comment.page';
 import { Locator, Page } from '@playwright/test';
 
 export class MainMenuComponent {
@@ -9,5 +10,10 @@ export class MainMenuComponent {
     this.articlesButton = this.page.getByTestId('open-articles');
     this.commentsButton = this.page.getByTestId('open-comments');
     this.homePage = this.page.getByRole('link', { name: '🦎 GAD' });
+  }
+
+  async clickCommentButton(): Promise<CommentPage> {
+    await this.commentsButton.click();
+    return new CommentPage(this.page);
   }
 }

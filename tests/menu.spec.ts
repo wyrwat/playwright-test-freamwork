@@ -10,12 +10,11 @@ test.describe('Verify menu main buttons', () => {
     async ({ page }) => {
       //Arrange
       const expecetedCommentsTitle = 'Comments';
-
       const articlesPage = new ArticlesPage(page);
-      const commentsPage = new CommentsPage(page);
+
       //Act
       await articlesPage.goto();
-      await articlesPage.mainMenu.commentsButton.click();
+      const commentsPage = await articlesPage.mainMenu.clickCommentButton();
 
       //Assert
       const title = await commentsPage.getTitle();
