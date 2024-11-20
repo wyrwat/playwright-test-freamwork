@@ -1,6 +1,5 @@
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentsPage } from '@_src/pages/comments.page';
-import { HomePage } from '@_src/pages/home.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify menu main buttons', () => {
@@ -29,11 +28,10 @@ test.describe('Verify menu main buttons', () => {
       //Arrange
       const expectedArticleTitle = 'Articles';
       const commentsPage = new CommentsPage(page);
-      const articlesPage = new ArticlesPage(page);
 
       //Act
       await commentsPage.goto();
-      await commentsPage.mainMenu.articlesButton.click();
+      const articlesPage = await commentsPage.mainMenu.clickArticlesButton();
 
       //Assert
       const title = await articlesPage.getTitle();
@@ -48,10 +46,10 @@ test.describe('Verify menu main buttons', () => {
       //Arrange
       const expectedHomePageTitle = 'GAD';
       const commentsPage = new CommentsPage(page);
-      const homePage = new HomePage(page);
+
       //Act
       await commentsPage.goto();
-      await commentsPage.mainMenu.homePage.click();
+      const homePage = await commentsPage.mainMenu.clickHomeButton();
 
       //Assert
       const title = await homePage.getTitle();
