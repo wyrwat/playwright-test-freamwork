@@ -1,5 +1,6 @@
 import { LoginUserModel } from '@_src/models/user.model';
 import { BasePage } from '@_src/pages/base.page';
+import { WelcomePage } from '@_src/pages/welcome.page';
 import { Locator, Page } from '@playwright/test';
 
 export class LoginPage extends BasePage {
@@ -18,10 +19,11 @@ export class LoginPage extends BasePage {
     this.loginError = this.page.getByTestId('login-error');
   }
 
-  async login(loginUserData: LoginUserModel): Promise<void> {
+  async login(loginUserData: LoginUserModel): Promise<WelcomePage> {
     await this.page.waitForLoadState();
     await this.userEmailInput.fill(loginUserData.userEmail);
     await this.userPasswordInput.fill(loginUserData.userPassword);
     await this.loginButton.click();
+    return new WelcomePage(this.page);
   }
 }
