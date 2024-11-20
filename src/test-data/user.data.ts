@@ -1,4 +1,4 @@
-import { USER_EMAIL, USER_PASSWORD } from '../env.config';
+import { USER_EMAIL, USER_PASSWORD } from '@_config/env.config';
 
 export const testUser1 = {
   userEmail: USER_EMAIL,
