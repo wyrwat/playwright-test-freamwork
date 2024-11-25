@@ -46,7 +46,8 @@ test.describe('Create, verify and delete comment', () => {
         await expect
           .soft(addCommentView.addCommentHeader)
           .toHaveText(expectedAddCommentHeader);
-        await addCommentView.createComment(newCommentData);
+
+        articlePage = await addCommentView.createComment(newCommentData);
 
         //Assert
         await expect(articlePage.alertPopup).toHaveText(popUpText);
@@ -71,7 +72,7 @@ test.describe('Create, verify and delete comment', () => {
 
         //Act
         const editCommentView = await commentPage.clickEditButton();
-        await editCommentView.updatedComment(editCommentData);
+        commentPage = await editCommentView.updatedComment(editCommentData);
 
         //Assert
         await expect(commentPage.alerPopup).toHaveText(
@@ -94,6 +95,7 @@ test.describe('Create, verify and delete comment', () => {
       });
     },
   );
+
   test(
     'User can add second comment',
     { tag: ['@GAD-R05-03', '@logged'] },
@@ -108,29 +110,29 @@ test.describe('Create, verify and delete comment', () => {
         await expect
           .soft(addCommentView.addCommentHeader)
           .toHaveText(expectedAddCommentHeader);
-        await addCommentView.createComment(newCommentData);
+        articlePage = await addCommentView.createComment(newCommentData);
 
         //Assert
         await expect(articlePage.alertPopup).toHaveText(popUpText);
       });
 
       await test.step('create and verify second comment', async () => {
-        const secondCommentData = createRandomComment(3);
+        const secondCommentData = createRandomComment(4);
 
-        const secondCommendBody =
+        const secondCommentBody =
           await test.step('create comment', async () => {
             addCommentView = await articlePage.clickCommentButton();
-            await addCommentView.createComment(secondCommentData);
+            articlePage = await addCommentView.createComment(secondCommentData);
             return secondCommentData.body;
           });
 
         await test.step('verify comment', async () => {
           await expect(articlePage.alertPopup).toHaveText(popUpText);
           const articleComment =
-            articlePage.getArticleComment(secondCommendBody);
-          await expect(articleComment.body).toHaveText(secondCommendBody);
+            articlePage.getArticleComment(secondCommentBody);
+          await expect(articleComment.body).toHaveText(secondCommentBody);
           commentPage = await articlePage.clickCommentLink(articleComment.link);
-          await expect(commentPage.commentBody).toHaveText(secondCommendBody);
+          await expect(commentPage.commentBody).toHaveText(secondCommentBody);
         });
       });
     },
