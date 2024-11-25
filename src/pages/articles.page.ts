@@ -1,5 +1,7 @@
 import { MainMenuComponent } from '@_src/components/main-menu.component';
+import { ArticlePage } from '@_src/pages/article.page';
 import { BasePage } from '@_src/pages/base.page';
+import { AddArticleView } from '@_src/views/addArticle.view';
 import { Locator, Page } from '@playwright/test';
 
 export class ArticlesPage extends BasePage {
@@ -19,12 +21,20 @@ export class ArticlesPage extends BasePage {
     this.noResultText = this.page.getByTestId('no-results');
   }
 
-  async gotoArticle(title: string): Promise<void> {
+  async gotoArticle(title: string): Promise<ArticlePage> {
     await this.page.getByText(title).click();
+    return new ArticlePage(this.page);
   }
 
-  async searchArticle(phrase: string): Promise<void> {
+  async searchArticle(phrase: string): Promise<ArticlesPage> {
     await this.searchInput.fill(phrase);
     await this.goSearchButton.click();
+    return this;
+  }
+
+  async clickAddArticleButton(): Promise<AddArticleView> {
+    await this.addArticleButtonLogged.click();
+    return new AddArticleView(this.page);
+    return new AddArticleView(this.page);
   }
 }

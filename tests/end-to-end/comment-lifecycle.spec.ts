@@ -26,13 +26,12 @@ test.describe('Create, verify and delete comment', () => {
     articlesPage = new ArticlesPage(page);
     articlePage = new ArticlePage(page);
     addCommentView = new AddCommentView(page);
-    addArticleView = new AddArticleView(page);
     commentPage = new CommentPage(page);
     articleData = createRandomNewArticle(10, 60);
     editCommentView = new EditCommentView(page);
 
     await articlesPage.goto();
-    await articlesPage.addArticleButtonLogged.click();
+    addArticleView = await articlesPage.clickAddArticleButton();
     await addArticleView.addNewArticle(articleData);
   });
 

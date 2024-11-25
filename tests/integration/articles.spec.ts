@@ -12,10 +12,9 @@ test.describe('Verify articles', () => {
 
   test.beforeEach(async ({ page }) => {
     articlesPage = new ArticlesPage(page);
-    addArticleView = new AddArticleView(page);
 
     await articlesPage.goto();
-    await articlesPage.addArticleButtonLogged.click();
+    addArticleView = await articlesPage.clickAddArticleButton();
     await expect(addArticleView.addNewHeader).toBeVisible();
   });
 

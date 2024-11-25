@@ -3,21 +3,18 @@ import { AddArticleModel } from '@_src/models/article.model';
 import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { LoginPage } from '@_src/pages/login.page';
-import { AddArticleView } from '@_src/views/addArticle.view';
 import test, { expect } from '@playwright/test';
 
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete articles', () => {
   let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
-  let addArticleView: AddArticleView;
   let articleData: AddArticleModel;
   let articlePage: ArticlePage;
 
   test.beforeEach(async ({ page }) => {
     articlesPage = new ArticlesPage(page);
     articlePage = new ArticlePage(page);
-
     await articlesPage.goto();
   });
 
@@ -26,12 +23,11 @@ test.describe('Create, verify and delete articles', () => {
     { tag: ['@GAD-R04-03', '@logged'] },
     async ({ page }) => {
       //Arrange
-      addArticleView = new AddArticleView(page);
       const alertPopUp = 'Article was created';
       articleData = createRandomNewArticle(10, 60);
 
       //Act
-      await articlesPage.addArticleButtonLogged.click();
+      const addArticleView = await articlesPage.clickAddArticleButton();
       await expect(addArticleView.addNewHeader).toBeVisible();
       await addArticleView.addNewArticle(articleData);
 
@@ -49,7 +45,7 @@ test.describe('Create, verify and delete articles', () => {
     { tag: ['@GAD-R04-01', '@logged'] },
     async () => {
       //Act
-      await articlesPage.gotoArticle(articleData.title);
+      const articlePage = await articlesPage.gotoArticle(articleData.title);
 
       //Assert
       await expect(articlePage.articleTitle).toHaveText(articleData.title);
@@ -66,7 +62,7 @@ test.describe('Create, verify and delete articles', () => {
       //Arrange
       const expectedArticleTitle = 'Articles';
       const expectedNoresultsText = 'No data';
-      await articlesPage.gotoArticle(articleData.title);
+      const articlePage = await articlesPage.gotoArticle(articleData.title);
 
       //Act
       articlesPage = await articlePage.deleteArticle();
@@ -76,7 +72,7 @@ test.describe('Create, verify and delete articles', () => {
       const title = await articlesPage.getTitle();
       expect(title).toContain(expectedArticleTitle);
 
-      await articlesPage.searchArticle(articleData.title);
+      articlesPage = await articlesPage.searchArticle(articleData.title);
       await expect(articlesPage.noResultText).toHaveText(expectedNoresultsText);
     },
   );
