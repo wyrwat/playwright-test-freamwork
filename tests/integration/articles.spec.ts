@@ -1,5 +1,4 @@
 import createRandomNewArticle from '@_src/factories/article.factory';
-import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { LoginPage } from '@_src/pages/login.page';
 import { AddArticleView } from '@_src/views/addArticle.view';
@@ -62,8 +61,7 @@ test.describe('Verify articles', () => {
         const articleData = createRandomNewArticle(129, 60);
 
         //Act
-        await addArticleView.addNewArticle(articleData);
-        await addArticleView.saveButton.click();
+        await addArticleView.createNewArticle(articleData);
 
         //Assert
         await expect(addArticleView.alertPopup).toHaveText(alertPopUp);
@@ -73,14 +71,13 @@ test.describe('Verify articles', () => {
     test(
       'Create article - title with 128 char',
       { tag: ['@GAD-R04-02', '@logged'] },
-      async ({ page }) => {
+      async () => {
         //Arrange
         const alertPopUp = 'Article was created';
-        const articlePage = new ArticlePage(page);
         const articleData = createRandomNewArticle(128, 60);
 
         //Act
-        await addArticleView.addNewArticle(articleData);
+        const articlePage = await addArticleView.createNewArticle(articleData);
 
         //Assert
         await expect(articlePage.alertPopup).toHaveText(alertPopUp);
