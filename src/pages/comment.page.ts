@@ -1,5 +1,7 @@
 import { MainMenuComponent } from '@_src/components/main-menu.component';
+import { ArticlePage } from '@_src/pages/article.page';
 import { BasePage } from '@_src/pages/base.page';
+import { EditCommentView } from '@_src/views/editComment.view';
 import { Locator, Page } from '@playwright/test';
 
 export class CommentPage extends BasePage {
@@ -8,7 +10,7 @@ export class CommentPage extends BasePage {
   commentBody: Locator;
   editButton: Locator;
   alerPopup: Locator;
-  returnToArticleButton: Locator;
+  returnToArticleLink: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -16,6 +18,16 @@ export class CommentPage extends BasePage {
     this.commentBody = this.page.getByTestId('comment-body');
     this.editButton = this.page.getByTestId('edit');
     this.alerPopup = this.page.getByTestId('alert-popup');
-    this.returnToArticleButton = this.page.getByTestId('return');
+    this.returnToArticleLink = this.page.getByTestId('return');
+  }
+
+  async clickEditButton(): Promise<EditCommentView> {
+    await this.editButton.click();
+    return new EditCommentView(this.page);
+  }
+
+  async clickReturnToArticleLink(): Promise<ArticlePage> {
+    await this.returnToArticleLink.click();
+    return new ArticlePage(this.page);
   }
 }

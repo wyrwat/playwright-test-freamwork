@@ -8,7 +8,6 @@ import { CommentPage } from '@_src/pages/comment.page';
 import { LoginPage } from '@_src/pages/login.page';
 import { AddArticleView } from '@_src/views/addArticle.view';
 import { AddCommentView } from '@_src/views/addComment.view';
-import { EditCommentView } from '@_src/views/editComment.view';
 import test, { expect } from '@playwright/test';
 
 test.describe('Create, verify and delete comment', () => {
@@ -19,7 +18,6 @@ test.describe('Create, verify and delete comment', () => {
   let articlePage: ArticlePage;
   let addCommentView: AddCommentView;
   let commentPage: CommentPage;
-  let editCommentView: EditCommentView;
   let editCommentData: AddCommentModel;
 
   test.beforeEach(async ({ page }) => {
@@ -28,7 +26,6 @@ test.describe('Create, verify and delete comment', () => {
     addCommentView = new AddCommentView(page);
     commentPage = new CommentPage(page);
     articleData = createRandomNewArticle(10, 60);
-    editCommentView = new EditCommentView(page);
 
     await articlesPage.goto();
     addArticleView = await articlesPage.clickAddArticleButton();
@@ -73,7 +70,7 @@ test.describe('Create, verify and delete comment', () => {
         const expectedCommentUpdatedPopup = 'Comment was updated';
 
         //Act
-        await commentPage.editButton.click();
+        const editCommentView = await commentPage.clickEditButton();
         await editCommentView.updatedComment(editCommentData);
 
         //Assert
@@ -85,7 +82,7 @@ test.describe('Create, verify and delete comment', () => {
       await test.step('Verify updated comment in article', async () => {
         //Act
         await expect(commentPage.commentBody).toHaveText(editCommentData.body);
-        await commentPage.returnToArticleButton.click();
+        const articlePage = await commentPage.clickReturnToArticleLink();
         const articleCommentUpdated = articlePage.getArticleComment(
           editCommentData.body,
         );
