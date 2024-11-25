@@ -1,11 +1,9 @@
 import createRandomNewArticle from '@_src/factories/article.factory';
 import { ArticlesPage } from '@_src/pages/articles.page';
-import { LoginPage } from '@_src/pages/login.page';
 import { AddArticleView } from '@_src/views/addArticle.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify articles', () => {
-  let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
   let addArticleView: AddArticleView;
 

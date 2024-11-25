@@ -5,15 +5,10 @@ import { AddCommentModel } from '@_src/models/comment.model';
 import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentPage } from '@_src/pages/comment.page';
-import { LoginPage } from '@_src/pages/login.page';
-import { AddArticleView } from '@_src/views/addArticle.view';
 import { AddCommentView } from '@_src/views/addComment.view';
 import test, { expect } from '@playwright/test';
 
 test.describe('Create, verify and delete comment', () => {
-  let loginPage: LoginPage;
-  let articlesPage: ArticlesPage;
-  let addArticleView: AddArticleView;
   let articleData: AddArticleModel;
   let articlePage: ArticlePage;
   let addCommentView: AddCommentView;
@@ -21,14 +16,14 @@ test.describe('Create, verify and delete comment', () => {
   let editCommentData: AddCommentModel;
 
   test.beforeEach(async ({ page }) => {
-    articlesPage = new ArticlesPage(page);
+    const articlesPage = new ArticlesPage(page);
     articlePage = new ArticlePage(page);
     addCommentView = new AddCommentView(page);
     commentPage = new CommentPage(page);
     articleData = createRandomNewArticle(10, 60);
 
     await articlesPage.goto();
-    addArticleView = await articlesPage.clickAddArticleButton();
+    const addArticleView = await articlesPage.clickAddArticleButton();
     articlePage = await addArticleView.createNewArticle(articleData);
   });
 
