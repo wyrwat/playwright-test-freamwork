@@ -1,29 +1,29 @@
 import createRandomUserData from '@_src/factories/user.factory';
 import { RegisterUserModel } from '@_src/models/user.model';
-import { LoginPage } from '@_src/pages/login.page';
 import { RegisterPage } from '@_src/pages/register.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify register', () => {
   let registerPage: RegisterPage;
   let registerUserData: RegisterUserModel;
+
   test.beforeEach(async ({ page }) => {
     registerPage = new RegisterPage(page);
     registerUserData = createRandomUserData();
+    await registerPage.goto();
   });
+
   test(
     'Register with correct data and login',
     { tag: ['@GAD-R03-01', '@GAD-R03-02', '@GAD-R03-03'] },
     async ({ page }) => {
       //Arrange
       const popUpText = 'User created';
-      const loginPage = new LoginPage(page);
       const expectedLoginTitle = 'Login';
       const expectedWelcomeTitle = 'Welcome';
 
       //Act
-      await registerPage.goto();
-      await registerPage.register(registerUserData);
+      const loginPage = await registerPage.register(registerUserData);
 
       //Assert
       await expect(registerPage.registerPopUp).toHaveText(popUpText);
@@ -56,7 +56,6 @@ test.describe('Verify register', () => {
       registerUserData.userEmail = '@#$';
 
       //Act
-      await registerPage.goto();
       await registerPage.register(registerUserData);
 
       //Assert
@@ -72,7 +71,6 @@ test.describe('Verify register', () => {
       const errorMessage = 'This field is required';
 
       //Act
-      await registerPage.goto();
       await registerPage.userFirstNameInput.fill(
         registerUserData.userFirtsName,
       );

@@ -1,5 +1,6 @@
 import { RegisterUserModel } from '@_src/models/user.model';
 import { BasePage } from '@_src/pages/base.page';
+import { LoginPage } from '@_src/pages/login.page';
 import { Locator, Page } from '@playwright/test';
 
 export class RegisterPage extends BasePage {
@@ -23,11 +24,12 @@ export class RegisterPage extends BasePage {
     this.alertPopUp = page.locator('#octavalidate_email');
   }
 
-  async register(registerUserData: RegisterUserModel): Promise<void> {
+  async register(registerUserData: RegisterUserModel): Promise<LoginPage> {
     await this.userFirstNameInput.fill(registerUserData.userFirtsName);
     await this.userLastNameInput.fill(registerUserData.userLastName);
     await this.userEmailInput.fill(registerUserData.userEmail);
     this.userPasswordInput.fill(registerUserData.userPassword);
     await this.registerButton.click();
+    return new LoginPage(this.page);
   }
 }
