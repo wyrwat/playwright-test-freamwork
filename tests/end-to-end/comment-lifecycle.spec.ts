@@ -46,7 +46,7 @@ test.describe('Create, verify and delete comment', () => {
 
       await test.step('Create new comment', async () => {
         //Act
-        await articlePage.addNewCommentButton.click();
+        addCommentView = await articlePage.clickCommentButton();
         await expect
           .soft(addCommentView.addCommentHeader)
           .toHaveText(expectedAddCommentHeader);
@@ -62,7 +62,8 @@ test.describe('Create, verify and delete comment', () => {
           newCommentData.body,
         );
         await expect(articleComment.body).toHaveText(newCommentData.body);
-        await articleComment.link.click();
+        commentPage = await articlePage.clickCommentLink(articleComment.link);
+
         //Assert
         await expect(commentPage.commentBody).toHaveText(newCommentData.body);
       });
@@ -107,7 +108,7 @@ test.describe('Create, verify and delete comment', () => {
 
       await test.step('Create first comment', async () => {
         //Act
-        await articlePage.addNewCommentButton.click();
+        addCommentView = await articlePage.clickCommentButton();
         await expect
           .soft(addCommentView.addCommentHeader)
           .toHaveText(expectedAddCommentHeader);
@@ -122,7 +123,7 @@ test.describe('Create, verify and delete comment', () => {
 
         const secondCommendBody =
           await test.step('create comment', async () => {
-            await articlePage.addNewCommentButton.click();
+            addCommentView = await articlePage.clickCommentButton();
             await addCommentView.createComment(secondCommentData);
             return secondCommentData.body;
           });
@@ -132,7 +133,7 @@ test.describe('Create, verify and delete comment', () => {
           const articleComment =
             articlePage.getArticleComment(secondCommendBody);
           await expect(articleComment.body).toHaveText(secondCommendBody);
-          await articleComment.link.click();
+          commentPage = await articlePage.clickCommentLink(articleComment.link);
           await expect(commentPage.commentBody).toHaveText(secondCommendBody);
         });
       });
