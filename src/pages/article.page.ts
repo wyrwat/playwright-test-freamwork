@@ -10,7 +10,7 @@ interface ArticleComment {
   link: Locator;
 }
 export class ArticlePage extends BasePage {
-  url = '/articles.html';
+  url = '/article.html';
   articleTitle: Locator;
   articleBody: Locator;
   alertPopup: Locator;
