@@ -1,18 +1,24 @@
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentsPage } from '@_src/pages/comments.page';
-import { expect, test } from '@playwright/test';
+import { test as baseTest, expect } from '@playwright/test';
+
+const test = baseTest.extend({
+  articlesPage: async ({ page }, use) => {
+    const articlePage = new ArticlesPage(page);
+    articlePage.goto();
+    await use(articlePage);
+  },
+});
 
 test.describe('Verify menu main buttons', () => {
   test(
     'Comments button navigate to comments page',
     { tag: ['@GAD-R01-02'] },
-    async ({ page }) => {
+    async ({ articlesPage }) => {
       //Arrange
       const expecetedCommentsTitle = 'Comments';
-      const articlesPage = new ArticlesPage(page);
 
       //Act
-      await articlesPage.goto();
       const commentsPage = await articlesPage.mainMenu.clickCommentButton();
 
       //Assert
