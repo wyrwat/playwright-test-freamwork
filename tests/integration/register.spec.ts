@@ -1,7 +1,6 @@
 import createRandomUserData from '@_src/factories/user.factory';
-import { RegisterUserModel } from '@_src/models/user.model';
-// import { expect, test } from '@playwright/test';
 import { expect, test } from '@_src/fixtures/merge.fixture';
+import { RegisterUserModel } from '@_src/models/user.model';
 
 test.describe('Verify register', () => {
   let registerUserData: RegisterUserModel;
