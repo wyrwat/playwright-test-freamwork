@@ -35,6 +35,7 @@ test.describe('Verify articles', () => {
       await expect(addArticleView.alertPopup).toHaveText(alertPopUp);
     },
   );
+
   test.describe('Title length', () => {
     test(
       'Reject create article - title exceed 128 char',

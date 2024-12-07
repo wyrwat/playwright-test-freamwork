@@ -1,3 +1,4 @@
+import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentsPage } from '@_src/pages/comments.page';
 import { HomePage } from '@_src/pages/home.page';
@@ -7,6 +8,7 @@ import { AddArticleView } from '@_src/views/addArticle.view';
 import { test as baseTest } from '@playwright/test';
 
 interface Pages {
+  articlePage: ArticlePage;
   addArticleView: AddArticleView;
   articlesPage: ArticlesPage;
   commentsPage: CommentsPage;
@@ -16,6 +18,10 @@ interface Pages {
 }
 
 export const pageObjectTest = baseTest.extend<Pages>({
+  articlePage: async ({ page }, use) => {
+    const articlePage = new ArticlePage(page);
+    await use(articlePage);
+  },
   articlesPage: async ({ page }, use) => {
     const articlePage = new ArticlesPage(page);
     await articlePage.goto();
