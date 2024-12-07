@@ -1,28 +1,20 @@
 import createRandomNewArticle from '@_src/factories/article.factory';
+import { expect, test } from '@_src/fixtures/merge.fixture';
 import { AddArticleModel } from '@_src/models/article.model';
-import { ArticlesPage } from '@_src/pages/articles.page';
-import test, { expect } from '@playwright/test';
 
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete articles', () => {
-  let articlesPage: ArticlesPage;
   let articleData: AddArticleModel;
-
-  test.beforeEach(async ({ page }) => {
-    articlesPage = new ArticlesPage(page);
-    await articlesPage.goto();
-  });
 
   test(
     'Create new article',
     { tag: ['@GAD-R04-03', '@logged'] },
-    async ({ page }) => {
+    async ({ addArticleView }) => {
       //Arrange
       const alertPopUp = 'Article was created';
       articleData = createRandomNewArticle(10, 60);
 
       //Act
-      const addArticleView = await articlesPage.clickAddArticleButton();
       await expect(addArticleView.addNewHeader).toBeVisible();
       const articlePage = await addArticleView.createNewArticle(articleData);
 
@@ -38,7 +30,7 @@ test.describe('Create, verify and delete articles', () => {
   test(
     'Loged user can access single article',
     { tag: ['@GAD-R04-01', '@logged'] },
-    async () => {
+    async ({ articlesPage }) => {
       //Act
       const articlePage = await articlesPage.gotoArticle(articleData.title);
 
@@ -53,7 +45,7 @@ test.describe('Create, verify and delete articles', () => {
   test(
     'Loged user can delete his own article single article',
     { tag: ['@GAD-R04-04', '@logged'] },
-    async () => {
+    async ({ articlesPage }) => {
       //Arrange
       const expectedArticleTitle = 'Articles';
       const expectedNoresultsText = 'No data';
