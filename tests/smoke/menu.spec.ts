@@ -1,23 +1,5 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 
-// interface Pages {
-//   articlesPage: ArticlesPage;
-//   commentsPage: CommentsPage;
-// }
-
-// const test = baseTest.extend<Pages>({
-//   articlesPage: async ({ page }, use) => {
-//     const articlePage = new ArticlesPage(page);
-//     articlePage.goto();
-//     await use(articlePage);
-//   },
-//   commentsPage: async ({ page }, use) => {
-//     const commentsPage = new CommentsPage(page);
-//     commentsPage.goto();
-//     await use(commentsPage);
-//   },
-// });
-
 test.describe('Verify menu main buttons', () => {
   test(
     'Comments button navigate to comments page',
