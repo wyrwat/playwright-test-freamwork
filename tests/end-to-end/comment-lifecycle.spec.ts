@@ -1,12 +1,11 @@
 import createRandomNewArticle from '@_src/factories/article.factory';
 import createRandomComment from '@_src/factories/comment.factory';
+import { expect, test } from '@_src/fixtures/merge.fixture';
 import { AddArticleModel } from '@_src/models/article.model';
 import { AddCommentModel } from '@_src/models/comment.model';
 import { ArticlePage } from '@_src/pages/article.page';
-import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentPage } from '@_src/pages/comment.page';
 import { AddCommentView } from '@_src/views/addComment.view';
-import test, { expect } from '@playwright/test';
 
 test.describe('Create, verify and delete comment', () => {
   let articleData: AddArticleModel;
@@ -15,15 +14,8 @@ test.describe('Create, verify and delete comment', () => {
   let commentPage: CommentPage;
   let editCommentData: AddCommentModel;
 
-  test.beforeEach(async ({ page }) => {
-    const articlesPage = new ArticlesPage(page);
-    articlePage = new ArticlePage(page);
-    addCommentView = new AddCommentView(page);
-    commentPage = new CommentPage(page);
+  test.beforeEach(async ({ addArticleView }) => {
     articleData = createRandomNewArticle(10, 60);
-
-    await articlesPage.goto();
-    const addArticleView = await articlesPage.clickAddArticleButton();
     articlePage = await addArticleView.createNewArticle(articleData);
   });
 
