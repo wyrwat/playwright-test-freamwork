@@ -3,9 +3,11 @@ import { CommentsPage } from '@_src/pages/comments.page';
 import { HomePage } from '@_src/pages/home.page';
 import { LoginPage } from '@_src/pages/login.page';
 import { RegisterPage } from '@_src/pages/register.page';
+import { AddArticleView } from '@_src/views/addArticle.view';
 import { test as baseTest } from '@playwright/test';
 
 interface Pages {
+  addArticleView: AddArticleView;
   articlesPage: ArticlesPage;
   commentsPage: CommentsPage;
   homePage: HomePage;
@@ -18,6 +20,11 @@ export const pageObjectTest = baseTest.extend<Pages>({
     const articlePage = new ArticlesPage(page);
     await articlePage.goto();
     await use(articlePage);
+  },
+
+  addArticleView: async ({ articlesPage }, use) => {
+    const addArticleView = await articlesPage.clickAddArticleButton();
+    await use(addArticleView);
   },
 
   commentsPage: async ({ page }, use) => {
