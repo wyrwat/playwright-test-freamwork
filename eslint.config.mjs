@@ -7,7 +7,14 @@ import tseslint from 'typescript-eslint';
 export default [
   { ignores: ['package-lock.json', 'playwright-report/**', 'test-results/**'] },
   { files: ['**/*.{js,mjs,cjs,ts}'] },
-  { languageOptions: { globals: globals.browser } },
+  {
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: {
+        warnOnUnsupportedTypeScriptVersion: false,
+      },
+    },
+  },
   pluginJs.configs.recommended,
   {
     rules: {
