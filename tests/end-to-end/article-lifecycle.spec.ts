@@ -1,4 +1,3 @@
-import createRandomNewArticle from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import { AddArticleModel } from '@_src/models/article.model';
 
@@ -9,21 +8,25 @@ test.describe('Create, verify and delete articles', () => {
   test(
     'Create new article',
     { tag: ['@GAD-R04-03', '@logged'] },
-    async ({ addArticleView }) => {
+    async ({ createRandomArticle }) => {
       //Arrange
       const alertPopUp = 'Article was created';
-      articleData = createRandomNewArticle(10, 60);
+      articleData = createRandomArticle.articleData;
 
       //Act
-      await expect(addArticleView.addNewHeader).toBeVisible();
-      const articlePage = await addArticleView.createNewArticle(articleData);
+      const articlePage = createRandomArticle;
 
       //Assert
-      await expect(articlePage.alertPopup).toHaveText(alertPopUp);
-      await expect(articlePage.articleTitle).toHaveText(articleData.title);
-      await expect(articlePage.articleBody).toHaveText(articleData.body, {
-        useInnerText: true,
-      });
+      await expect(articlePage.articlePage.alertPopup).toHaveText(alertPopUp);
+      await expect(articlePage.articlePage.articleTitle).toHaveText(
+        articleData.title,
+      );
+      await expect(articlePage.articlePage.articleBody).toHaveText(
+        articleData.body,
+        {
+          useInnerText: true,
+        },
+      );
     },
   );
 
