@@ -6,6 +6,7 @@ test.describe('Verify search component for articles', () => {
     page,
   }) => {
     // Arrange
+    const expectDefaultArticleNumber = 6;
     await expect(articlesPage.goSearchButton).toBeInViewport();
     const responsePromise = page.waitForResponse('/api/articles*');
 
@@ -16,6 +17,6 @@ test.describe('Verify search component for articles', () => {
 
     // Assert
     expect(response.ok()).toBeTruthy();
-    expect(body).toHaveLength(6);
+    expect(body).toHaveLength(expectDefaultArticleNumber);
   });
 });
