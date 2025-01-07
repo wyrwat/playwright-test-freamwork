@@ -35,6 +35,5 @@ export class ArticlesPage extends BasePage {
   async clickAddArticleButton(): Promise<AddArticleView> {
     await this.addArticleButtonLogged.click();
     return new AddArticleView(this.page);
-    return new AddArticleView(this.page);
   }
 }
