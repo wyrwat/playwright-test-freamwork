@@ -1,6 +1,6 @@
-import { RESPONSE_TIMEOUT } from '@_pw-config';
 import createRandomNewArticle from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
+import { waitForResponse } from '@_src/utils/wait.util';
 
 test.describe('Verify articles', () => {
   test(
@@ -13,9 +13,7 @@ test.describe('Verify articles', () => {
 
       const articleData = createRandomNewArticle(10, 60);
       articleData.title = '';
-      const responsePromise = page.waitForResponse('/api/articles', {
-        timeout: RESPONSE_TIMEOUT,
-      });
+      const responsePromise = waitForResponse(page, '/api/articles');
 
       //Act
       await addArticleView.createNewArticle(articleData);
@@ -30,14 +28,20 @@ test.describe('Verify articles', () => {
   test(
     'Rejectt create article - empty body',
     { tag: ['@GAD-R04-01', '@logged'] },
-    async ({ addArticleView }) => {
+    async ({ addArticleView, page }) => {
       //Arrange
       const alertPopUp = 'Article was not created';
       const articleData = createRandomNewArticle();
 
+      const responsePromise = waitForResponse(page, '/api/articles');
+      const expectedResponseCode = 422;
+
       //Act
       await addArticleView.titleInput.fill(articleData.title);
       await addArticleView.saveButton.click();
+
+      const response = await responsePromise;
+      expect(response.status()).toBe(expectedResponseCode);
 
       //Assert
       await expect(addArticleView.alertPopup).toHaveText(alertPopUp);
@@ -48,14 +52,17 @@ test.describe('Verify articles', () => {
     test(
       'Reject create article - title exceed 128 char',
       { tag: ['@GAD-R04-02', '@logged'] },
-      async ({ addArticleView }) => {
+      async ({ addArticleView, page }) => {
         //Arrange
         const alertPopUp = 'Article was not created';
-
         const articleData = createRandomNewArticle(129, 60);
+        const responsePromise = waitForResponse(page, '/api/articles');
+        const expectedResponseCode = 422;
 
         //Act
         await addArticleView.createNewArticle(articleData);
+        const response = await responsePromise;
+        expect(response.status()).toBe(expectedResponseCode);
 
         //Assert
         await expect(addArticleView.alertPopup).toHaveText(alertPopUp);
@@ -65,14 +72,18 @@ test.describe('Verify articles', () => {
     test(
       'Create article - title with 128 char',
       { tag: ['@GAD-R04-02', '@logged'] },
-      async ({ addArticleView }) => {
+      async ({ addArticleView, page }) => {
         //Arrange
         const alertPopUp = 'Article was created';
         const articleData = createRandomNewArticle(128, 60);
 
+        const responsePromise = waitForResponse(page, '/api/articles');
+        const expectedResponseCode = 201;
+
         //Act
         const articlePage = await addArticleView.createNewArticle(articleData);
-
+        const response = await responsePromise;
+        expect(response.status()).toBe(expectedResponseCode);
         //Assert
         await expect(articlePage.alertPopup).toHaveText(alertPopUp);
         await expect(articlePage.articleTitle).toHaveText(articleData.title);
