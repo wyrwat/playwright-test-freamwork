@@ -1,4 +1,3 @@
-import { RESPONSE_TIMEOUT } from '@_pw-config';
 import createRandomNewArticle from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import { waitForResponse } from '@_src/utils/wait.util';
@@ -14,7 +13,7 @@ test.describe('Verify articles', () => {
 
       const articleData = createRandomNewArticle(10, 60);
       articleData.title = '';
-      const responsePromise = waitForResponse(page, '/api/articles');
+      const responsePromise = waitForResponse({ page, url: '/api/articles' });
 
       //Act
       await addArticleView.createNewArticle(articleData);
@@ -34,7 +33,7 @@ test.describe('Verify articles', () => {
       const alertPopUp = 'Article was not created';
       const articleData = createRandomNewArticle();
 
-      const responsePromise = waitForResponse(page, '/api/articles');
+      const responsePromise = waitForResponse({ page, url: '/api/articles' });
       const expectedResponseCode = 422;
 
       //Act
@@ -57,7 +56,8 @@ test.describe('Verify articles', () => {
         //Arrange
         const alertPopUp = 'Article was not created';
         const articleData = createRandomNewArticle(129, 60);
-        const responsePromise = waitForResponse(page, '/api/articles');
+
+        const responsePromise = waitForResponse({ page, url: '/api/articles' });
         const expectedResponseCode = 422;
 
         //Act
@@ -78,7 +78,7 @@ test.describe('Verify articles', () => {
         const alertPopUp = 'Article was created';
         const articleData = createRandomNewArticle(128, 60);
 
-        const responsePromise = waitForResponse(page, '/api/articles');
+        const responsePromise = waitForResponse({ page, url: '/api/articles' });
         const expectedResponseCode = 201;
 
         //Act
@@ -96,20 +96,19 @@ test.describe('Verify articles', () => {
   });
 
   test(
-    'Schould return created article from API',
+    'Should return created article from API',
     { tag: ['@GAD-R07-04', '@logged'] },
     async ({ addArticleView, page }) => {
       //Arrange
       const articleData = createRandomNewArticle();
-      const responsePromise = page.waitForResponse(
-        (response) => {
-          return (
-            response.url().includes('/api/articles') &&
-            response.request().method() == 'GET'
-          );
-        },
-        { timeout: RESPONSE_TIMEOUT },
-      );
+
+      const waitParams = {
+        page,
+        url: '/api/articles',
+        method: 'GET',
+      };
+
+      const responsePromise = waitForResponse(waitParams);
 
       //Act
       const articlePage = await addArticleView.createNewArticle(articleData);
