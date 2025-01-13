@@ -2,17 +2,17 @@ import createRandomNewArticle from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import { testUser1 } from '@_src/test-data/user.data';
 
-test.describe('Verify articles CRUD operations @api', () => {
+test.describe('Verify articles CRUD operations', () => {
   test('should not create an article without a logged-in user', async ({
     request,
   }) => {
     // Arrange
     const expectedStatusCode = 401;
     const articlesUrl = '/api/articles';
-    const randomArticledata = createRandomNewArticle();
+    const randomArticleData = createRandomNewArticle();
     const requestBody = {
-      title: randomArticledata.title,
-      body: randomArticledata.body,
+      title: randomArticleData.title,
+      body: randomArticleData.body,
       date: '2024-01-13T13:39:50.660Z',
       image: '',
     };
