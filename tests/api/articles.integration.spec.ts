@@ -40,7 +40,8 @@ test.describe('Verify articles CRUD operations @api', () => {
       title: randomArticledata.title,
       body: randomArticledata.body,
       date: '2024-01-13T13:39:50.660Z',
-      image: '',
+      image:
+        '.\\data\\images\\256\\tester-app_9f26eff6-2390-4460-8829-81a9cbe21751.jpg',
     };
 
     // Act
@@ -55,6 +56,14 @@ test.describe('Verify articles CRUD operations @api', () => {
     });
 
     //Expected
-    expect(responseArticle.status()).toBe(expectedStatusCode);
+    const actualResponseStatus = responseArticle.status();
+    expect(
+      actualResponseStatus,
+      `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
+    ).toBe(expectedStatusCode);
+
+    const article = await responseArticle.json();
+    expect.soft(article.title).toEqual(requestBody.title);
+    expect.soft(article.body).toEqual(requestBody.body);
   });
 });
