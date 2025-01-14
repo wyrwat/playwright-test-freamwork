@@ -1,25 +1,22 @@
 import createRandomNewArticle from '@_src/factories/article.factory';
 import createRandomComment from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { testUser1 } from '@_src/test-data/user.data';
+import { getAuthHeader } from '@_src/utils/api.util';
 
 test.describe(
   'Verify comments CRUD operations',
   { tag: ['@GAD-R08-01', '@crud'] },
   () => {
     let articleId: number;
-    let headers = {};
+    let headers: { [key: string]: string };
     let currentDate;
 
     test.beforeAll('login and create article', async ({ request }) => {
+      //Arrange
       currentDate = new Date();
+      headers = await getAuthHeader(request);
 
       const expectedStatusCode = 201;
-      const loginUrl = '/api/login';
-      const loginBody = {
-        email: testUser1.userEmail,
-        password: testUser1.userPassword,
-      };
       const articlesUrl = '/api/articles';
       const randomArticledata = createRandomNewArticle();
 
@@ -30,12 +27,8 @@ test.describe(
         image:
           '.\\data\\images\\256\\tester-app_9f26eff6-2390-4460-8829-81a9cbe21751.jpg',
       };
-      const responseLogin = await request.post(loginUrl, { data: loginBody });
-      const responseLoginJson = await responseLogin.json();
 
-      headers = {
-        Authorization: `Bearer ${responseLoginJson.access_token}`,
-      };
+      //Act
       const responseArticle = await request.post(articlesUrl, {
         headers,
         data: requestBody,
@@ -44,6 +37,7 @@ test.describe(
       articleId = responseArticleJson.id;
       const actualResponseStatus = responseArticle.status();
 
+      //Assert
       expect(
         actualResponseStatus,
         `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
@@ -56,11 +50,9 @@ test.describe(
     }) => {
       // Arrange
       currentDate = new Date();
-
       const expectedStatusCode = 201;
       const commentsUrl = '/api/comments';
       const randomCommentData = createRandomComment();
-
       const commentsData = {
         article_id: articleId,
         body: randomCommentData.body,
