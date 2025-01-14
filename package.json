@@ -9,7 +9,7 @@
     "prepare": "husky",
     "test": "npx playwright test",
     "test:headed": "npm run test -- --headed",
-    "test:ui": "npm run test -- --ui",
+    "test:ui-mode": "npm run test -- --ui",
     "show-report": "npx playwright show-report",
     "format:check": "npx prettier . --check \"!**.ts\"",
     "tsc:check": "npx tsc --noEmit --pretty --strict"

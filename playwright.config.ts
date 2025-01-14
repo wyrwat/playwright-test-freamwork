@@ -25,8 +25,13 @@ export default defineConfig({
   },
   projects: [
     {
+      name: 'api',
+      testDir: './tests/api',
+    },
+    {
       name: 'chromium',
       grepInvert: /@logged/,
+      testDir: './tests/ui',
       use: { ...devices['Desktop Chrome'] },
     },
     {

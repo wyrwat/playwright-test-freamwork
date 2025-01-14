@@ -77,14 +77,19 @@ test.describe('Create, verify and delete comment', () => {
   );
 
   test(
-    'User can add second comment',
+    'user can add more than one comment to article',
     { tag: ['@GAD-R05-03', '@logged'] },
-    async () => {
+    async ({ createRandomArticle }) => {
       const expectedAddCommentHeader = 'Add New Comment';
       const popUpText = 'Comment was created';
-      const newCommentData = createRandomComment(3);
+
+      let articlePage = createRandomArticle.articlePage;
 
       await test.step('Create first comment', async () => {
+        // Arrange
+        const expectedCommentCreatedPopup = 'Comment was created';
+        const newCommentData = createRandomComment(3);
+
         //Act
         addCommentView = await articlePage.clickCommentButton();
         await expect
