@@ -1,4 +1,5 @@
 import createRandomNewArticle from '@_src/factories/article.factory';
+import createRandomComment from '@_src/factories/comment.factory';
 import { testUser1 } from '@_src/test-data/user.data';
 import { APIRequestContext } from '@playwright/test';
 
@@ -11,6 +12,12 @@ interface ArticlePayload {
   body: string;
   date: Date;
   image: string;
+}
+
+interface CommentPayload {
+  article_id: number;
+  body: string;
+  date: Date;
 }
 
 export async function getAuthHeader(
@@ -42,4 +49,16 @@ export function createArticlePayload(): ArticlePayload {
   };
 
   return articleData;
+}
+
+export function createCommentPayload(articleId: number): CommentPayload {
+  const currentDate = new Date();
+  const randomArticledata = createRandomComment(1);
+  const commentData = {
+    article_id: articleId,
+    body: randomArticledata.body,
+    date: currentDate,
+  };
+
+  return commentData;
 }

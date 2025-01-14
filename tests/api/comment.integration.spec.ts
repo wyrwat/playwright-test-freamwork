@@ -1,7 +1,9 @@
-import createRandomNewArticle from '@_src/factories/article.factory';
-import createRandomComment from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { getAuthHeader } from '@_src/utils/api.util';
+import {
+  createArticlePayload,
+  createCommentPayload,
+  getAuthHeader,
+} from '@_src/utils/api.util';
 
 test.describe(
   'Verify comments CRUD operations',
@@ -10,31 +12,23 @@ test.describe(
     let articleId: number;
     let headers: { [key: string]: string };
     let currentDate;
-
     test.beforeAll('login and create article', async ({ request }) => {
       //Arrange
-      currentDate = new Date();
       headers = await getAuthHeader(request);
 
       const expectedStatusCode = 201;
       const articlesUrl = '/api/articles';
-      const randomArticledata = createRandomNewArticle();
-
-      const requestBody = {
-        title: randomArticledata.title,
-        body: randomArticledata.body,
-        date: currentDate,
-        image:
-          '.\\data\\images\\256\\tester-app_9f26eff6-2390-4460-8829-81a9cbe21751.jpg',
-      };
+      const articleData = createArticlePayload();
 
       //Act
       const responseArticle = await request.post(articlesUrl, {
         headers,
-        data: requestBody,
+        data: articleData,
       });
+
       const responseArticleJson = await responseArticle.json();
       articleId = responseArticleJson.id;
+
       const actualResponseStatus = responseArticle.status();
 
       //Assert
@@ -45,20 +39,13 @@ test.describe(
       await new Promise((resolve) => setTimeout(resolve, 5000));
     });
 
-    test('should not create an article with a logged-in user', async ({
-      request,
-    }) => {
+    test('should create a comment with logged-in user', async ({ request }) => {
       // Arrange
       currentDate = new Date();
       const expectedStatusCode = 201;
       const commentsUrl = '/api/comments';
-      const randomCommentData = createRandomComment();
-      const commentsData = {
-        article_id: articleId,
-        body: randomCommentData.body,
-        date: currentDate,
-      };
-
+      const commentsData = createCommentPayload(articleId);
+      console.log(commentsData);
       // Act
       const responseComments = await request.post(commentsUrl, {
         headers,

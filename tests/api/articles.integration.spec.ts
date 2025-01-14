@@ -1,6 +1,5 @@
-import createRandomNewArticle from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { getAuthHeader } from '@_src/utils/api.util';
+import { createArticlePayload, getAuthHeader } from '@_src/utils/api.util';
 
 test.describe(
   'Verify articles CRUD operations',
@@ -15,16 +14,10 @@ test.describe(
       headers = await getAuthHeader(request);
       const expectedStatusCode = 401;
       const articlesUrl = '/api/articles';
-      const randomArticleData = createRandomNewArticle();
-      const requestBody = {
-        title: randomArticleData.title,
-        body: randomArticleData.body,
-        date: '2024-01-13T13:39:50.660Z',
-        image: '',
-      };
+      const articleData = createArticlePayload();
 
       // Act
-      const response = await request.post(articlesUrl, { data: requestBody });
+      const response = await request.post(articlesUrl, { data: articleData });
 
       //Expected
       expect(response.status()).toBe(expectedStatusCode);
@@ -35,21 +28,13 @@ test.describe(
     }) => {
       // Arrange
       const expectedStatusCode = 201;
-
       const articlesUrl = '/api/articles';
-      const randomArticledata = createRandomNewArticle();
-      const requestBody = {
-        title: randomArticledata.title,
-        body: randomArticledata.body,
-        date: '2024-01-13T13:39:50.660Z',
-        image:
-          '.\\data\\images\\256\\tester-app_9f26eff6-2390-4460-8829-81a9cbe21751.jpg',
-      };
+      const articleData = createArticlePayload();
 
       // Act
       const responseArticle = await request.post(articlesUrl, {
         headers,
-        data: requestBody,
+        data: articleData,
       });
 
       //Expected
@@ -60,8 +45,8 @@ test.describe(
       ).toBe(expectedStatusCode);
 
       const article = await responseArticle.json();
-      expect.soft(article.title).toEqual(requestBody.title);
-      expect.soft(article.body).toEqual(requestBody.body);
+      expect.soft(article.title).toEqual(articleData.title);
+      expect.soft(article.body).toEqual(articleData.body);
     });
   },
 );
