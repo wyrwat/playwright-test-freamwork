@@ -1,18 +1,17 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
+import { apiLinks } from '@_src/utils/api.util';
 
 test.describe(
   'Verify comments API endpoint @GAD-R08-02 @api',
   { tag: ['@GAD-R08-01', '@smoke'] },
   () => {
     test.describe('verify each condition in separate test', () => {
-      const commentsUrl = '/api/comments';
-
       test('GET comments returns status code 200', async ({ request }) => {
         //Arrange
         const expectedStatusCode = 200;
 
         // Act
-        const response = await request.get(commentsUrl);
+        const response = await request.get(apiLinks.commentsUrl);
 
         // Assert
         expect(response.status()).toBe(expectedStatusCode);
@@ -25,7 +24,7 @@ test.describe(
         const expectedMinArticlesCount = 1;
 
         //Act
-        const response = await request.get(commentsUrl);
+        const response = await request.get(apiLinks.commentsUrl);
         const responseJson = await response.json();
 
         // Assert
@@ -47,7 +46,7 @@ test.describe(
         ];
 
         // Act
-        const response = await request.get(commentsUrl);
+        const response = await request.get(apiLinks.commentsUrl);
         const responseJson = await response.json();
         const comment = responseJson[0];
 
@@ -64,9 +63,8 @@ test.describe(
       request,
     }) => {
       // Arrange
-      const commentsUrl = '/api/comments';
 
-      const response = await request.get(commentsUrl);
+      const response = await request.get(apiLinks.commentsUrl);
 
       await test.step('GET comments returns status code 200', async () => {
         const expectedStatusCode = 200;

@@ -19,17 +19,23 @@ interface CommentPayload {
   body: string;
   date: Date;
 }
+export const apiLinks = {
+  articlesUrl: '/api/articles',
+  commentsUrl: '/api/comments',
+  loginUrl: '/api/login',
+};
 
 export async function getAuthHeader(
   request: APIRequestContext,
 ): Promise<Headers> {
-  const loginUrl = '/api/login';
   const loginData = {
     email: testUser1.userEmail,
     password: testUser1.userPassword,
   };
 
-  const responseLogin = await request.post(loginUrl, { data: loginData });
+  const responseLogin = await request.post(apiLinks.loginUrl, {
+    data: loginData,
+  });
   const responseLoginJson = await responseLogin.json();
 
   return {

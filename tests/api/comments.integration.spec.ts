@@ -1,5 +1,6 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import {
+  apiLinks,
   createArticlePayload,
   createCommentPayload,
   getAuthHeader,
@@ -11,17 +12,17 @@ test.describe(
   () => {
     let articleId: number;
     let headers: { [key: string]: string };
-    let currentDate;
+
     test.beforeAll('login and create article', async ({ request }) => {
       //Arrange
       headers = await getAuthHeader(request);
 
       const expectedStatusCode = 201;
-      const articlesUrl = '/api/articles';
+
       const articleData = createArticlePayload();
 
       //Act
-      const responseArticle = await request.post(articlesUrl, {
+      const responseArticle = await request.post(apiLinks.articlesUrl, {
         headers,
         data: articleData,
       });
@@ -41,13 +42,11 @@ test.describe(
 
     test('should create a comment with logged-in user', async ({ request }) => {
       // Arrange
-      currentDate = new Date();
       const expectedStatusCode = 201;
-      const commentsUrl = '/api/comments';
       const commentsData = createCommentPayload(articleId);
-      console.log(commentsData);
+
       // Act
-      const responseComments = await request.post(commentsUrl, {
+      const responseComments = await request.post(apiLinks.commentsUrl, {
         headers,
         data: commentsData,
       });

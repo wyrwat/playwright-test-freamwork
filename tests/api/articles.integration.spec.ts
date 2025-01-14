@@ -1,5 +1,9 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { createArticlePayload, getAuthHeader } from '@_src/utils/api.util';
+import {
+  apiLinks,
+  createArticlePayload,
+  getAuthHeader,
+} from '@_src/utils/api.util';
 
 test.describe(
   'Verify articles CRUD operations',
@@ -13,11 +17,13 @@ test.describe(
       // Arrange
       headers = await getAuthHeader(request);
       const expectedStatusCode = 401;
-      const articlesUrl = '/api/articles';
+
       const articleData = createArticlePayload();
 
       // Act
-      const response = await request.post(articlesUrl, { data: articleData });
+      const response = await request.post(apiLinks.articlesUrl, {
+        data: articleData,
+      });
 
       //Expected
       expect(response.status()).toBe(expectedStatusCode);
@@ -28,11 +34,11 @@ test.describe(
     }) => {
       // Arrange
       const expectedStatusCode = 201;
-      const articlesUrl = '/api/articles';
+
       const articleData = createArticlePayload();
 
       // Act
-      const responseArticle = await request.post(articlesUrl, {
+      const responseArticle = await request.post(apiLinks.articlesUrl, {
         headers,
         data: articleData,
       });
