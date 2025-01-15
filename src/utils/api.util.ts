@@ -3,18 +3,18 @@ import createRandomComment from '@_src/factories/comment.factory';
 import { testUser1 } from '@_src/test-data/user.data';
 import { APIRequestContext } from '@playwright/test';
 
-interface Headers {
+export interface Headers {
   [key: string]: string;
 }
 
-interface ArticlePayload {
+export interface ArticlePayload {
   title: string;
   body: string;
   date: Date;
   image: string;
 }
 
-interface CommentPayload {
+export interface CommentPayload {
   article_id: number;
   body: string;
   date: Date;

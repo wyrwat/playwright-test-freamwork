@@ -1,21 +1,25 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import {
+  ArticlePayload,
+  Headers,
   apiLinks,
   createArticlePayload,
   getAuthHeader,
 } from '@_src/utils/api.util';
+import { APIResponse } from '@playwright/test';
 
 test.describe(
   'Verify articles CRUD operations',
   { tag: ['@GAD-R08-01', '@crud'] },
   () => {
-    let headers: { [key: string]: string };
+    let headers: Headers;
 
     test('should not create an article without a logged-in user', async ({
       request,
     }) => {
       // Arrange
       headers = await getAuthHeader(request);
+
       const expectedStatusCode = 401;
 
       const articleData = createArticlePayload();
@@ -29,30 +33,33 @@ test.describe(
       expect(response.status()).toBe(expectedStatusCode);
     });
 
-    test.describe.configure({ mode: 'serial' });
     test.describe(
       'Verify articles CRUD operations',
       { tag: ['@GAD-R08-01', '@crud'] },
       () => {
+        let responseArticle: APIResponse;
+        let articleData: ArticlePayload;
         let articleId: number;
-        let headers: { [key: string]: string };
 
-        test('should create an article with a logged-in user', async ({
-          request,
-        }) => {
-          // Arrange
-          const expectedStatusCode = 201;
+        test.beforeAll('login', async ({ request }) => {
           headers = await getAuthHeader(request);
+        });
 
-          const articleData = createArticlePayload();
-
-          // Act
-          const responseArticle = await request.post(apiLinks.articlesUrl, {
+        test.beforeEach('create article', async ({ request }) => {
+          articleData = createArticlePayload();
+          responseArticle = await request.post(apiLinks.articlesUrl, {
             headers,
             data: articleData,
           });
+          const responseArticleJson = await responseArticle.json();
+          articleId = responseArticleJson.id;
+        });
 
-          //Expected
+        test('should create an article with a logged-in user', async ({}) => {
+          // Arrange
+          const expectedStatusCode = 201;
+
+          //Assert
           const actualResponseStatus = responseArticle.status();
           expect(
             actualResponseStatus,
@@ -60,8 +67,6 @@ test.describe(
           ).toBe(expectedStatusCode);
 
           const articleJson = await responseArticle.json();
-          articleId = articleJson.id;
-
           expect.soft(articleJson.title).toEqual(articleData.title);
           expect.soft(articleJson.body).toEqual(articleData.body);
         });
@@ -83,6 +88,11 @@ test.describe(
             actualResponseStatus,
             `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
           ).toBe(expectedStatusCode);
+          const responseGet = await request.get(
+            `${apiLinks.articlesUrl}/${articleId}`,
+          );
+          const responseGetStatus = responseGet.status();
+          expect(responseGetStatus).toEqual(404);
         });
       },
     );

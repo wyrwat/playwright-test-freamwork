@@ -1,5 +1,6 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import {
+  Headers,
   apiLinks,
   createArticlePayload,
   createCommentPayload,
@@ -11,7 +12,7 @@ test.describe(
   { tag: ['@GAD-R08-01', '@crud'] },
   () => {
     let articleId: number;
-    let headers: { [key: string]: string };
+    let headers: Headers;
 
     test.beforeAll('login and create article', async ({ request }) => {
       //Arrange
