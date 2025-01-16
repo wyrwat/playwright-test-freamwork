@@ -19,9 +19,7 @@ test.describe(
     }) => {
       // Arrange
       headers = await getAuthHeader(request);
-
       const expectedStatusCode = 401;
-
       const articleData = createArticlePayload();
 
       // Act
@@ -92,7 +90,7 @@ test.describe(
             `${apiLinks.articlesUrl}/${articleId}`,
           );
           const responseGetStatus = responseGet.status();
-          expect(responseGetStatus).toEqual(404);
+          expect(responseGetStatus).toEqual('404');
         });
       },
     );
