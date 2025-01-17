@@ -55,6 +55,17 @@ test.describe(
 
       const rerponseJson = await responseComments.json();
       commentId = rerponseJson.id;
+
+      await expect(async () => {
+        const responseCommentsCreated = await request.get(
+          `${apiLinks.commentsUrl}/${commentId}`,
+        );
+
+        expect(
+          responseCommentsCreated.status(),
+          `Expected status: 200, actual status: ${responseCommentsCreated.status()}`,
+        ).toBe(200);
+      }).toPass({ timeout: 2_000 });
     });
 
     test('should create a comment with logged-in user', async ({ request }) => {
@@ -75,8 +86,6 @@ test.describe(
     test('should be able to delete an comment with a logged-in user', async ({
       request,
     }) => {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
       const expectedStatusCode = 201;
       const responseArticle = await request.delete(
         `${apiLinks.commentsUrl}/${commentId}`,

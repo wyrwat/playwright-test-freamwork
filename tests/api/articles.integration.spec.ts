@@ -62,7 +62,7 @@ test.describe(
               responseArticleCreated.status(),
               `Expected status: 200, actual status: ${responseArticleCreated.status()}`,
             ).toBe(200);
-          }).toPass();
+          }).toPass({ timeout: 2_000 });
         });
 
         test('should create an article with a logged-in user', async ({}) => {
@@ -84,8 +84,6 @@ test.describe(
         test('should be able to delete an article with a logged-in user', async ({
           request,
         }) => {
-          // await new Promise((resolve) => setTimeout(resolve, 5000));
-
           const expectedStatusCode = 200;
           const responseArticle = await request.delete(
             `${apiLinks.articlesUrl}/${articleId}`,
