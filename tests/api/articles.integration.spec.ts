@@ -8,6 +8,8 @@ import {
 } from '@_src/utils/api.util';
 import { APIResponse } from '@playwright/test';
 
+import exp = require('node:constants');
+
 test.describe(
   'Verify articles CRUD operations',
   { tag: ['@GAD-R08-01', '@crud'] },
@@ -51,6 +53,16 @@ test.describe(
           });
           const responseArticleJson = await responseArticle.json();
           articleId = responseArticleJson.id;
+
+          await expect(async () => {
+            const responseArticleCreated = await request.get(
+              `${apiLinks.articlesUrl}/${articleId}`,
+            );
+            expect(
+              responseArticleCreated.status(),
+              `Expected status: 200, actual status: ${responseArticleCreated.status()}`,
+            ).toBe(200);
+          }).toPass();
         });
 
         test('should create an article with a logged-in user', async ({}) => {
@@ -72,7 +84,7 @@ test.describe(
         test('should be able to delete an article with a logged-in user', async ({
           request,
         }) => {
-          await new Promise((resolve) => setTimeout(resolve, 5000));
+          // await new Promise((resolve) => setTimeout(resolve, 5000));
 
           const expectedStatusCode = 200;
           const responseArticle = await request.delete(
@@ -90,7 +102,7 @@ test.describe(
             `${apiLinks.articlesUrl}/${articleId}`,
           );
           const responseGetStatus = responseGet.status();
-          expect(responseGetStatus).toEqual('404');
+          expect(responseGetStatus).toEqual(404);
         });
       },
     );
