@@ -4,7 +4,7 @@ import {
 } from '@_src/api/factories/article-payload.ap.factory';
 import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.models';
-import { apiLinks } from '@_src/api/utils/api.util';
+import { apiUrls } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -25,7 +25,7 @@ test.describe(
       const articleData = createArticlePayload();
 
       // Act
-      const response = await request.post(apiLinks.articlesUrl, {
+      const response = await request.post(apiUrls.articlesUrl, {
         data: articleData,
       });
 
@@ -47,7 +47,7 @@ test.describe(
 
         test.beforeEach('create article', async ({ request }) => {
           articleData = createArticlePayload();
-          responseArticle = await request.post(apiLinks.articlesUrl, {
+          responseArticle = await request.post(apiUrls.articlesUrl, {
             headers,
             data: articleData,
           });
@@ -56,7 +56,7 @@ test.describe(
 
           await expect(async () => {
             const responseArticleCreated = await request.get(
-              `${apiLinks.articlesUrl}/${articleId}`,
+              `${apiUrls.articlesUrl}/${articleId}`,
             );
             expect(
               responseArticleCreated.status(),
@@ -86,7 +86,7 @@ test.describe(
         }) => {
           const expectedStatusCode = 200;
           const responseArticle = await request.delete(
-            `${apiLinks.articlesUrl}/${articleId}`,
+            `${apiUrls.articlesUrl}/${articleId}`,
             { headers },
           );
           console.log(responseArticle);
@@ -97,7 +97,7 @@ test.describe(
             `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
           ).toBe(expectedStatusCode);
           const responseGet = await request.get(
-            `${apiLinks.articlesUrl}/${articleId}`,
+            `${apiUrls.articlesUrl}/${articleId}`,
           );
           const responseGetStatus = responseGet.status();
           expect(responseGetStatus).toEqual(404);

@@ -3,7 +3,7 @@ import { getAuthHeader } from '@_src/api/factories/authorization-header.api.fact
 import { createCommentPayload } from '@_src/api/factories/comment-payload.ap.factory';
 import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
 import { Headers } from '@_src/api/models/headers.api.models';
-import { apiLinks } from '@_src/api/utils/api.util';
+import { apiUrls } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -25,7 +25,7 @@ test.describe(
       const articleData = createArticlePayload();
 
       //Act
-      const responseArticle = await request.post(apiLinks.articlesUrl, {
+      const responseArticle = await request.post(apiUrls.articlesUrl, {
         headers,
         data: articleData,
       });
@@ -46,7 +46,7 @@ test.describe(
     test.beforeEach('create comments', async ({ request }) => {
       // Act
       commentsData = createCommentPayload(articleId);
-      responseComments = await request.post(apiLinks.commentsUrl, {
+      responseComments = await request.post(apiUrls.commentsUrl, {
         headers,
         data: commentsData,
       });
@@ -56,7 +56,7 @@ test.describe(
 
       await expect(async () => {
         const responseCommentsCreated = await request.get(
-          `${apiLinks.commentsUrl}/${commentId}`,
+          `${apiUrls.commentsUrl}/${commentId}`,
         );
 
         expect(
@@ -86,7 +86,7 @@ test.describe(
     }) => {
       const expectedStatusCode = 201;
       const responseArticle = await request.delete(
-        `${apiLinks.commentsUrl}/${commentId}`,
+        `${apiUrls.commentsUrl}/${commentId}`,
         { headers },
       );
 
@@ -97,7 +97,7 @@ test.describe(
         `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
       ).toBe(expectedStatusCode);
       const responseGet = await request.get(
-        `${apiLinks.commentsUrl}/${commentId}`,
+        `${apiUrls.commentsUrl}/${commentId}`,
       );
       const responseGetStatus = responseGet.status();
       expect(responseGetStatus).toEqual(404);
@@ -110,7 +110,7 @@ test.describe(
 
       const expectedStatusCode = 401;
       responseComments = await request.delete(
-        `${apiLinks.commentsUrl}/${commentId}`,
+        `${apiUrls.commentsUrl}/${commentId}`,
       );
 
       const actualResponseStatus = responseComments.status();
@@ -120,7 +120,7 @@ test.describe(
         `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
       ).toBe(expectedStatusCode);
       const responseGet = await request.get(
-        `${apiLinks.commentsUrl}/${commentId}`,
+        `${apiUrls.commentsUrl}/${commentId}`,
       );
       const responseGetStatus = responseGet.status();
       expect(responseGetStatus).toEqual(200);
