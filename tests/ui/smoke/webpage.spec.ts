@@ -1,17 +1,18 @@
-import { expect, test } from '@_src/fixtures/merge.fixture';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
 test.describe('Verify service main pages', () => {
   test(
-    'Home page has title', 
-    { tag: ['@GAD-R01-02'] }, 
+    'Home page has title',
+    { tag: ['@GAD-R01-02'] },
     async ({ homePage }) => {
-    // Arange
-   const expectedHomePageTitle = 'GAD';
+      // Arange
+      const expectedHomePageTitle = 'GAD';
 
-    // //Assert
-    const title = await homePage.getTitle();
-    expect(title).toContain(expectedHomePageTitle);
-  });
+      // //Assert
+      const title = await homePage.getTitle();
+      expect(title).toContain(expectedHomePageTitle);
+    },
+  );
 
   test(
     'Arcticles page has title',

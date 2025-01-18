@@ -1,6 +1,6 @@
-import { expect, test } from '@_src/fixtures/merge.fixture';
-import { ArticlePage } from '@_src/pages/article.page';
 import createRandomComment from '@_src/ui/factories/comment.factory';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { ArticlePage } from '@_src/ui/pages/article.page';
 import { waitForResponse } from '@_src/ui/utils/wait.util';
 import { AddCommentView } from '@_src/ui/views/addComment.view';
 
