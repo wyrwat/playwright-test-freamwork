@@ -1,13 +1,9 @@
-import {
-  createArticlePayload,
-  createCommentPayload,
-} from '@_src/api/factories/article-payload.ap.factory';
-import {
-  CommentPayload,
-  Headers,
-  apiLinks,
-  getAuthHeader,
-} from '@_src/api/utils/api.util';
+import { createArticlePayload } from '@_src/api/factories/article-payload.ap.factory';
+import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
+import { createCommentPayload } from '@_src/api/factories/comment-payload.ap.factory';
+import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
+import { Headers } from '@_src/api/models/headers.api.models';
+import { apiLinks } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 

@@ -1,6 +1,4 @@
-import { ArticlePayload, CommentPayload } from '@_src/api/utils/api.util';
 import createRandomNewArticle from '@_src/ui/factories/article.factory';
-import createRandomComment from '@_src/ui/factories/comment.factory';
 
 export function createArticlePayload(): ArticlePayload {
   const currentDate = new Date();
@@ -15,15 +13,9 @@ export function createArticlePayload(): ArticlePayload {
 
   return articleData;
 }
-
-export function createCommentPayload(articleId: number): CommentPayload {
-  const currentDate = new Date();
-  const randomArticledata = createRandomComment(1);
-  const commentData = {
-    article_id: articleId,
-    body: randomArticledata.body,
-    date: currentDate,
-  };
-
-  return commentData;
+export interface ArticlePayload {
+  title: string;
+  body: string;
+  date: Date;
+  image: string;
 }
