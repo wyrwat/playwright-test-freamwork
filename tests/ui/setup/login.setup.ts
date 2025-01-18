@@ -1,7 +1,7 @@
 import { STORAGE_STATE } from '@_pw-config';
-import { LoginUserModel } from '@_src/models/user.model';
-import { LoginPage } from '@_src/pages/login.page';
-import { testUser1 } from '@_src/test-data/user.data';
+import { LoginUserModel } from '@_src/ui/models/user.model';
+import { LoginPage } from '@_src/ui/pages/login.page';
+import { testUser1 } from '@_src/ui/test-data/user.data';
 import { expect, test as setup } from '@playwright/test';
 
 setup('Login and save session', async ({ page }) => {

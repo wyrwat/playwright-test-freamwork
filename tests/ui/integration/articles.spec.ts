@@ -1,6 +1,6 @@
-import createRandomNewArticle from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { waitForResponse } from '@_src/utils/wait.util';
+import createRandomNewArticle from '@_src/ui/factories/article.factory';
+import { waitForResponse } from '@_src/ui/utils/wait.util';
 
 test.describe('Verify articles', () => {
   test(

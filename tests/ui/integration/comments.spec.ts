@@ -1,8 +1,8 @@
-import createRandomComment from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import { ArticlePage } from '@_src/pages/article.page';
-import { waitForResponse } from '@_src/utils/wait.util';
-import { AddCommentView } from '@_src/views/addComment.view';
+import createRandomComment from '@_src/ui/factories/comment.factory';
+import { waitForResponse } from '@_src/ui/utils/wait.util';
+import { AddCommentView } from '@_src/ui/views/addComment.view';
 
 test.describe('Verify comment creation via API', () => {
   let articlePage: ArticlePage;

@@ -1,9 +1,9 @@
-import createRandomComment from '@_src/factories/comment.factory';
-import { expect, test } from '@_src/fixtures/merge.fixture';
-import { AddCommentModel } from '@_src/models/comment.model';
-import { ArticlePage } from '@_src/pages/article.page';
-import { CommentPage } from '@_src/pages/comment.page';
-import { AddCommentView } from '@_src/views/addComment.view';
+import createRandomComment from '@_src/ui/factories/comment.factory';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { AddCommentModel } from '@_src/ui/models/comment.model';
+import { ArticlePage } from '@_src/ui/pages/article.page';
+import { CommentPage } from '@_src/ui/pages/comment.page';
+import { AddCommentView } from '@_src/ui/views/addComment.view';
 
 test.describe('Create, verify and delete comment', () => {
   let articlePage: ArticlePage;

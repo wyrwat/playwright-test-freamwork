@@ -1,11 +1,11 @@
-import createRandomUserData from '@_src/factories/user.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { RegisterUserModel } from '@_src/models/user.model';
+import createRandomUserData from '@_src/ui/factories/user.factory';
+import { RegisterUserModel } from '@_src/ui/models/user.model';
 
 test.describe('Verify register', () => {
   let registerUserData: RegisterUserModel;
 
-  test.beforeEach(async ({  }) => {
+  test.beforeEach(async ({}) => {
     registerUserData = createRandomUserData();
   });
 

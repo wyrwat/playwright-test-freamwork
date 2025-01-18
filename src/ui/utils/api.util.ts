@@ -1,6 +1,6 @@
-import createRandomNewArticle from '@_src/factories/article.factory';
-import createRandomComment from '@_src/factories/comment.factory';
-import { testUser1 } from '@_src/test-data/user.data';
+import createRandomNewArticle from '@_src/ui/factories/article.factory';
+import createRandomComment from '@_src/ui/factories/comment.factory';
+import { testUser1 } from '@_src/ui/test-data/user.data';
 import { APIRequestContext } from '@playwright/test';
 
 export interface Headers {
