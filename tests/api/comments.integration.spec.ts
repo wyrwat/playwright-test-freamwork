@@ -1,12 +1,14 @@
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import {
+  createArticlePayload,
+  createCommentPayload,
+} from '@_src/api/factories/article-payload.ap.factory';
 import {
   CommentPayload,
   Headers,
   apiLinks,
-  createArticlePayload,
-  createCommentPayload,
   getAuthHeader,
-} from '@_src/ui/utils/api.util';
+} from '@_src/api/utils/api.util';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 test.describe(

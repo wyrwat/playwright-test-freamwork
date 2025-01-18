@@ -1,11 +1,11 @@
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { createArticlePayload } from '@_src/api/factories/article-payload.ap.factory';
 import {
   ArticlePayload,
   Headers,
   apiLinks,
-  createArticlePayload,
   getAuthHeader,
-} from '@_src/ui/utils/api.util';
+} from '@_src/api/utils/api.util';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 import exp = require('node:constants');
