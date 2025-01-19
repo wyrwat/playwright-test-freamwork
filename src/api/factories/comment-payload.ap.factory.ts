@@ -1,4 +1,4 @@
-import { CommentPayload } from '@_src/api/utils/api.util';
+import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
 import createRandomComment from '@_src/ui/factories/comment.factory';
 
 export function createCommentPayload(articleId: number): CommentPayload {

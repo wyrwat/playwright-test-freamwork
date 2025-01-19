@@ -1,3 +1,4 @@
+import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import {
   ArticlePayload,
   createArticlePayload,
@@ -46,23 +47,16 @@ test.describe(
         });
 
         test.beforeEach('create article', async ({ request }) => {
+          const data = createArticleWithApi(request, headers);
           articleData = createArticlePayload();
-          responseArticle = await request.post(apiUrls.articlesUrl, {
+          responseArticle = await createArticleWithApi(
+            request,
             headers,
-            data: articleData,
-          });
+            articleData,
+          );
+
           const responseArticleJson = await responseArticle.json();
           articleId = responseArticleJson.id;
-
-          await expect(async () => {
-            const responseArticleCreated = await request.get(
-              `${apiUrls.articlesUrl}/${articleId}`,
-            );
-            expect(
-              responseArticleCreated.status(),
-              `Expected status: 200, actual status: ${responseArticleCreated.status()}`,
-            ).toBe(200);
-          }).toPass({ timeout: 2_000 });
         });
 
         test('should create an article with a logged-in user', async ({}) => {

@@ -1,4 +1,4 @@
-import { createArticlePayload } from '@_src/api/factories/article-payload.ap.factory';
+import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { createCommentPayload } from '@_src/api/factories/comment-payload.ap.factory';
 import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
@@ -20,27 +20,10 @@ test.describe(
     test.beforeAll('login and create article', async ({ request }) => {
       //Arrange
       headers = await getAuthHeader(request);
-
-      const expectedStatusCode = 201;
-      const articleData = createArticlePayload();
-
-      //Act
-      const responseArticle = await request.post(apiUrls.articlesUrl, {
-        headers,
-        data: articleData,
-      });
+      const responseArticle = await createArticleWithApi(request, headers);
 
       const responseArticleJson = await responseArticle.json();
       articleId = responseArticleJson.id;
-
-      const actualResponseStatus = responseArticle.status();
-
-      //Assert
-      expect(
-        actualResponseStatus,
-        `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
-      ).toBe(expectedStatusCode);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
     });
 
     test.beforeEach('create comments', async ({ request }) => {
