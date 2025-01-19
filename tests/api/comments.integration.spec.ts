@@ -1,6 +1,6 @@
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
-import { createCommentPayload } from '@_src/api/factories/comment-payload.ap.factory';
+import { createCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
 import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
@@ -28,25 +28,14 @@ test.describe(
 
     test.beforeEach('create comments', async ({ request }) => {
       // Act
-      commentsData = createCommentPayload(articleId);
-      responseComments = await request.post(apiUrls.commentsUrl, {
+      responseComments = await createCommentWithApi(
+        request,
         headers,
-        data: commentsData,
-      });
+        articleId,
+      );
 
       const rerponseJson = await responseComments.json();
       commentId = rerponseJson.id;
-
-      await expect(async () => {
-        const responseCommentsCreated = await request.get(
-          `${apiUrls.commentsUrl}/${commentId}`,
-        );
-
-        expect(
-          responseCommentsCreated.status(),
-          `Expected status: 200, actual status: ${responseCommentsCreated.status()}`,
-        ).toBe(200);
-      }).toPass({ timeout: 2_000 });
     });
 
     test('should create a comment with logged-in user', async ({ request }) => {

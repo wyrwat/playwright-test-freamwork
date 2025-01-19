@@ -7,11 +7,6 @@ import { apiUrls } from '@_src/api/utils/api.util';
 import { expect } from '@_src/ui/fixtures/merge.fixture';
 import { APIRequestContext, APIResponse } from '@playwright/test';
 
-// interface ArticleDataAndResponse {
-//   articleData: ArticlePayload;
-//   responseArticle: APIResponse;
-// }
-
 export async function createArticleWithApi(
   request: APIRequestContext,
   headers: Headers,
