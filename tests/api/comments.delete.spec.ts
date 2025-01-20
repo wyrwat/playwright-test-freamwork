@@ -1,33 +1,28 @@
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { createCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
-import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 test.describe(
-  'Verify comments CRUD operations',
+  'Verify comments DELETE operations',
   { tag: ['@GAD-R08-01', '@crud'] },
   () => {
     let articleId: number;
     let commentId: number;
     let headers: Headers;
     let responseComments: APIResponse;
-    let commentsData: CommentPayload;
 
     test.beforeAll('login and create article', async ({ request }) => {
-      //Arrange
       headers = await getAuthHeader(request);
       const responseArticle = await createArticleWithApi(request, headers);
-
       const responseArticleJson = await responseArticle.json();
       articleId = responseArticleJson.id;
     });
 
     test.beforeEach('create comments', async ({ request }) => {
-      // Act
       responseComments = await createCommentWithApi(
         request,
         headers,
@@ -36,21 +31,6 @@ test.describe(
 
       const rerponseJson = await responseComments.json();
       commentId = rerponseJson.id;
-    });
-
-    test('should create a comment with logged-in user', async ({ request }) => {
-      // Arrange
-      const expectedStatusCode = 201;
-
-      //Expected
-      const actualResponseStatus = responseComments.status();
-      expect(
-        actualResponseStatus,
-        `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
-      ).toBe(expectedStatusCode);
-
-      const comment = await responseComments.json();
-      expect.soft(comment.body).toEqual(comment.body);
     });
 
     test('should be able to delete an comment with a logged-in user', async ({
