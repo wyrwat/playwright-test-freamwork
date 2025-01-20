@@ -1,7 +1,8 @@
+import { ArticlePayload } from '@_src/api/models/article-payload.api.models';
 import createRandomNewArticle from '@_src/ui/factories/article.factory';
 
 export function createArticlePayload(): ArticlePayload {
-  const currentDate = new Date();
+  const currentDate = new Date().toISOString();
   const randomArticledata = createRandomNewArticle();
   const articleData = {
     title: randomArticledata.title,
@@ -12,10 +13,4 @@ export function createArticlePayload(): ArticlePayload {
   };
 
   return articleData;
-}
-export interface ArticlePayload {
-  title: string;
-  body: string;
-  date: Date;
-  image: string;
 }
