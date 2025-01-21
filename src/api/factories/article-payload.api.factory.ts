@@ -3,7 +3,7 @@ import createRandomNewArticle from '@_src/ui/factories/article.factory';
 
 export function createArticlePayload(): ArticlePayload {
   const currentDate = new Date().toISOString();
-  const randomArticledata = createRandomNewArticle();
+  const randomArticledata = createRandomNewArticle(4, 5);
   const articleData = {
     title: randomArticledata.title,
     body: randomArticledata.body,

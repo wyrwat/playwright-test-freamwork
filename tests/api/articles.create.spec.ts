@@ -1,5 +1,5 @@
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
-import { createArticlePayload } from '@_src/api/factories/article-payload.ap.factory';
+import { createArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';

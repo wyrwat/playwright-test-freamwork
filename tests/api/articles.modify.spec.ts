@@ -10,7 +10,7 @@ import { APIResponse } from '@playwright/test';
 import exp = require('node:constants');
 
 test.describe(
-  'Verify articles DELETE operations',
+  'Verify articles modify operations',
   { tag: ['@GAD-R08-01', '@crud'] },
   () => {
     let headers: Headers;
@@ -35,26 +35,31 @@ test.describe(
       articleId = responseArticleJson.id;
     });
 
-    test('should be able to delete an article with a logged-in user', async ({
+    test('should be able to modify and teplace content for an article with a logged-in user', async ({
       request,
     }) => {
+      //Arrange
       const expectedStatusCode = 200;
-      const responseArticle = await request.delete(
-        `${apiUrls.articlesUrl}/${articleId}`,
-        { headers },
-      );
-      console.log(responseArticle);
-      const actualResponseStatus = responseArticle.status();
+      const modifiedArticleData = createArticlePayload();
 
+      //Act
+      const responseArticlePut = await request.put(
+        `${apiUrls.articlesUrl}/${articleId}`,
+        { headers, data: modifiedArticleData },
+      );
+      const modifiedArticleJson = await responseArticlePut.json();
+      const actualResponseStatus = responseArticlePut.status();
+
+      //Asert
       expect(
         actualResponseStatus,
         `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
       ).toBe(expectedStatusCode);
-      const responseGet = await request.get(
-        `${apiUrls.articlesUrl}/${articleId}`,
-      );
-      const responseGetStatus = responseGet.status();
-      expect(responseGetStatus).toEqual(404);
+
+      expect.soft(modifiedArticleJson.title).toEqual(modifiedArticleData.title);
+      expect.soft(modifiedArticleJson.body).toEqual(modifiedArticleData.body);
+      expect.soft(modifiedArticleJson.title).not.toEqual(articleData.title);
+      expect.soft(modifiedArticleJson.body).not.toEqual(articleData.body);
     });
   },
 );

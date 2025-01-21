@@ -1,7 +1,5 @@
-import {
-  ArticlePayload,
-  createArticlePayload,
-} from '@_src/api/factories/article-payload.ap.factory';
+import { createArticlePayload } from '@_src/api/factories/article-payload.api.factory';
+import { ArticlePayload } from '@_src/api/models/article-payload.api.models';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
 import { expect } from '@_src/ui/fixtures/merge.fixture';
