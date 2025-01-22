@@ -35,7 +35,7 @@ test.describe(
       articleId = responseArticleJson.id;
     });
 
-    test('should be able to modify and teplace content for an article with a logged-in user', async ({
+    test('should be able to modify and replace content for an article with a logged-in user', async ({
       request,
     }) => {
       //Arrange
