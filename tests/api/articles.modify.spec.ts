@@ -4,6 +4,7 @@ import { getAuthHeader } from '@_src/api/factories/authorization-header.api.fact
 import { ArticlePayload } from '@_src/api/models/article-payload.api.models';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
+import createRandomNewArticle from '@_src/ui/factories/article.factory';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -23,7 +24,6 @@ test.describe(
     });
 
     test.beforeEach('create article', async ({ request }) => {
-      const data = createArticleWithApi(request, headers);
       articleData = createArticlePayload();
       responseArticle = await createArticleWithApi(
         request,
@@ -60,6 +60,34 @@ test.describe(
       expect.soft(modifiedArticleJson.body).toEqual(modifiedArticleData.body);
       expect.soft(modifiedArticleJson.title).not.toEqual(articleData.title);
       expect.soft(modifiedArticleJson.body).not.toEqual(articleData.body);
+    });
+
+    test('should be able to partially modify content for an article with a logged-in user', async ({
+      request,
+    }) => {
+      //Arrange
+      const expectedStatusCode = 200;
+      const randomArticledata = createRandomNewArticle(4, 4);
+      const modifiedArticleData = { title: randomArticledata.title };
+
+      //Act
+      const responseArticlePut = await request.patch(
+        `${apiUrls.articlesUrl}/${articleId}`,
+        { headers, data: modifiedArticleData },
+      );
+
+      const modifiedArticleJson = await responseArticlePut.json();
+      const actualResponseStatus = responseArticlePut.status();
+
+      //Asert
+      expect(
+        actualResponseStatus,
+        `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
+      ).toBe(expectedStatusCode);
+
+      expect.soft(modifiedArticleJson.title).toEqual(modifiedArticleData.title);
+      expect.soft(modifiedArticleJson.title).not.toEqual(articleData.title);
+      expect.soft(modifiedArticleJson.body).toEqual(articleData.body);
     });
 
     test('should not modify an article with a non logged-in user @GAD-R10-01', async ({
