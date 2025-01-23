@@ -71,13 +71,13 @@ test.describe(
       const modifiedArticleData = { title: randomArticledata.title };
 
       //Act
-      const responseArticlePut = await request.patch(
+      const responseArticlePatch = await request.patch(
         `${apiUrls.articlesUrl}/${articleId}`,
         { headers, data: modifiedArticleData },
       );
 
-      const modifiedArticleJson = await responseArticlePut.json();
-      const actualResponseStatus = responseArticlePut.status();
+      const modifiedArticleJson = await responseArticlePatch.json();
+      const actualResponseStatus = responseArticlePatch.status();
 
       //Asert
       expect(

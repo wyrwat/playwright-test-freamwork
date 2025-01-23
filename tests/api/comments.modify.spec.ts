@@ -5,6 +5,7 @@ import { createCommentPayload } from '@_src/api/factories/comment-payload.ap.fac
 import { CommentPayload } from '@_src/api/models/comment-payload.api.models';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
+import createRandomComment from '@_src/ui/factories/comment.factory';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -54,6 +55,31 @@ test.describe(
 
       const actualResponseStatus = responseCommentsPut.status();
       const modifiedCommentJson = await responseCommentsPut.json();
+
+      expect(
+        actualResponseStatus,
+        `status code expected ${expectedStatusCode}, but received ${actualResponseStatus}`,
+      ).toBe(expectedStatusCode);
+
+      expect.soft(modifiedCommentJson.body).toEqual(modifiedCommentData.body);
+      expect.soft(modifiedCommentJson.body).not.toEqual(commentData.body);
+    });
+
+    test('should be able to partially modify content for an comment with a logged-in user', async ({
+      request,
+    }) => {
+      //Arrange
+      const expectedStatusCode = 200;
+      const modifiedCommentData = createRandomComment(1);
+
+      //Act
+      const responseCommentsPatch = await request.patch(
+        `${apiUrls.commentsUrl}/${commentId}`,
+        { headers, data: { body: modifiedCommentData.body } },
+      );
+
+      const actualResponseStatus = responseCommentsPatch.status();
+      const modifiedCommentJson = await responseCommentsPatch.json();
 
       expect(
         actualResponseStatus,
