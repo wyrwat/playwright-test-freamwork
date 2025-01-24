@@ -1,6 +1,6 @@
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthHeader } from '@_src/api/factories/authorization-header.api.factory';
-import { createCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
+import { prepareAndCreateCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
 import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
@@ -23,7 +23,7 @@ test.describe(
     });
 
     test.beforeEach('create comments', async ({ request }) => {
-      responseComments = await createCommentWithApi(
+      responseComments = await prepareAndCreateCommentWithApi(
         request,
         headers,
         articleId,

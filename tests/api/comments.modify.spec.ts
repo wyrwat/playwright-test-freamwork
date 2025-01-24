@@ -32,7 +32,6 @@ test.describe(
       responseComments = await createCommentWithApi(
         request,
         headers,
-        articleId,
         commentData,
       );
 

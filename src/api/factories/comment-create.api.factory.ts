@@ -4,16 +4,23 @@ import { Headers } from '@_src/api/models/headers.api.models';
 import { apiUrls } from '@_src/api/utils/api.util';
 import { APIRequestContext, APIResponse, expect } from '@playwright/test';
 
-export async function createCommentWithApi(
+export async function prepareAndCreateCommentWithApi(
   request: APIRequestContext,
   headers: Headers,
   articleId: number,
-  commentData?: CommentPayload,
 ): Promise<APIResponse> {
-  const commentsDataFinal = commentData || createCommentPayload(articleId);
+  const commentData = createCommentPayload(articleId);
+  return await createCommentWithApi(request, headers, commentData);
+}
+
+export async function createCommentWithApi(
+  request: APIRequestContext,
+  headers: Headers,
+  commentData: CommentPayload,
+): Promise<APIResponse> {
   const responseComments = await request.post(apiUrls.commentsUrl, {
     headers,
-    data: commentsDataFinal,
+    data: commentData,
   });
 
   const rerponseJson = await responseComments.json();

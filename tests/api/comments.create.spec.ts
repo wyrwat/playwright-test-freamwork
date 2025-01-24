@@ -25,12 +25,12 @@ test.describe(
     test('should create a comment with logged-in user', async ({ request }) => {
       // Arrange
       const expectedStatusCode = 201;
-
+      const commentData = createCommentPayload(articleId);
       //Act
       const responseComments = await createCommentWithApi(
         request,
         headers,
-        articleId,
+        commentData,
       );
 
       const rerponseJson = await responseComments.json();
